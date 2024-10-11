@@ -1,0 +1,21 @@
+{
+  "name": "connect-hex",
+  "version": "1.0.0",
+  "description": "This is an implementation of the game of hex but with gravity like in connect 4",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Viktor Szabó",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-organize-imports": "^4.1.0"
+  }
+}
