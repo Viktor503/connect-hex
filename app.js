@@ -13,6 +13,7 @@ app.use("/", indexrouter);
 app.use("/game", gamerouter);
 app.use("/css", express.static("./public/css"));
 app.use("/threejs", express.static("./public/threejs"));
+app.use("/textures", express.static("./public/textures"));
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
