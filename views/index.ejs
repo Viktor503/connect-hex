@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" type="text/css" />
+        <title>Index</title>
+    </head>
+    <body>
+        <div>
+            <button id="btn" onclick="">Local coop</button>
+            <button id="btn" onclick="">Local against AI</button>
+            <button id="btn" onclick="">Online play</button>
+            <form
+                action="/game"
+                name="popup"
+                style="display: none"
+                method="POST"
+            >
+                <label for="board_size">Board size:</label><br />
+                <input
+                    type="number"
+                    id="board_size"
+                    name="board_size"
+                    value="7"
+                    max="15"
+                    min="1"
+                /><br />
+                <button id="closePopup" onclick="">Cancel</button>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>
+
+<script>
+    const btn = document.getElementById("btn");
+    btn.addEventListener("click", () => {
+        document.forms["popup"].style.display = "block";
+    });
+    const closePopup = document.getElementById("closePopup");
+    closePopup.addEventListener("click", () => {
+        document.forms["popup"].style.display = "none";
+    });
+</script>
