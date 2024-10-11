@@ -1,18 +1,28 @@
-import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js";
+import { OrbitControls } from "OrbitControls";
+import * as THREE from "three";
+import { Hexagon_field } from "./Hexagon.js";
+let scene, renderer, camera, thing, controls;
 
-const scene = new THREE.Scene();
+function init() {
+    //set up scene and camera
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000,
+    );
+    camera.position.z = 10;
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-console.log(boardSize);
+    let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
+    let material = new THREE.MeshBasicMaterial({ map: texture });
 
-const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000,
-);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+    let hexagon = new Hexagon_field(1, 1, material);
+    let hexa = hexagon.createHexagon();
+    scene.add(hexa);
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = 80;
@@ -32,6 +42,12 @@ const animate = function () {
     renderer.render(scene, camera);
 };
 
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
 window.addEventListener("resize", onWindowResize, false);
 window.addEventListener("keydown", (e) => {
     if (e.key === "r" || e.key === "R") {
@@ -39,4 +55,26 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
+init();
 animate();
+
+// let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
+
+//     var arcShape = new THREE.Shape();
+//     arcShape.absarc(0, 0, 1, 0, Math.PI * 2, 0, false);
+
+//     var holePath = new THREE.Path();
+//     holePath.absarc(0, 0, 0.7, 0, Math.PI * 2, true);
+//     arcShape.holes.push(holePath);
+
+//     var geometry = new THREE.ExtrudeGeometry(arcShape, {
+//         curveSegments: 3,
+//         bevelEnabled: false,
+//     });
+//     var material = new THREE.MeshBasicMaterial({
+//         color: 0x990066,
+//         map: texture,
+//     });
+
+//     thing = new THREE.Mesh(geometry, material);
+//     scene.add(thing);
