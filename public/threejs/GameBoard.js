@@ -32,4 +32,11 @@ const animate = function () {
     renderer.render(scene, camera);
 };
 
+window.addEventListener("resize", onWindowResize, false);
+window.addEventListener("keydown", (e) => {
+    if (e.key === "r" || e.key === "R") {
+        controls.reset();
+    }
+});
+
 animate();
