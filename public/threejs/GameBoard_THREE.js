@@ -1,5 +1,5 @@
-import { OrbitControls } from "OrbitControls";
 import * as THREE from "three";
+import { OrbitControls } from "three/addons/OrbitControls.js";
 import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
