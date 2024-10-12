@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/OrbitControls.js";
+import { Game } from "../models/Game.js";
 import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
@@ -22,6 +23,7 @@ function init() {
     let material = new THREE.MeshBasicMaterial({ map: texture });
 
     let gameBoard = new GameBoard(boardSize, 1, material);
+    let game = new Game(gameBoard);
     gameBoard.addToScene(scene);
 
     //set up change color on hover
@@ -45,8 +47,8 @@ function init() {
                 selectedField = intersects[0].object;
                 gameBoard.changeDiagonalColor(
                     selectedField.name,
-                    currentPlayer == 1 ? 0xff0000 : 0x5555ff,
-                    currentPlayer == 1 ? 0x990000 : 0x0000cc,
+                    game.currentPlayer == 1 ? 0xff0000 : 0x0000ff,
+                    game.currentPlayer == 1 ? 0x990000 : 0x000099,
                 );
             }
         } else {
@@ -62,11 +64,9 @@ function init() {
     });
 
     //set up click event
-    let currentPlayer = 1;
     renderer.domElement.addEventListener("click", (event) => {
         if (!selectedField) return;
-        gameBoard.markField(selectedField.name, currentPlayer);
-        currentPlayer = currentPlayer == 1 ? -1 : 1;
+        game.markField(selectedField.name);
     });
 
     //set up controls

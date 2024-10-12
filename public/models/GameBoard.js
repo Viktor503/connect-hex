@@ -84,6 +84,7 @@ class GameBoard {
         console.log(field);
         field.value = player == 1 ? 1 : -1;
         field.material.color.setHex(player == 1 ? 0xff0000 : 0x0000ff);
+        return true;
     }
 }
 
