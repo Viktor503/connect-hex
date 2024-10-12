@@ -61,6 +61,14 @@ function init() {
         }
     });
 
+    //set up click event
+    let currentPlayer = 1;
+    renderer.domElement.addEventListener("click", (event) => {
+        if (!selectedField) return;
+        gameBoard.markField(selectedField.name, currentPlayer);
+        currentPlayer = currentPlayer == 1 ? -1 : 1;
+    });
+
     //set up controls
     controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = 80;
