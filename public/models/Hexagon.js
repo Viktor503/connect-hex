@@ -14,8 +14,6 @@ class Hexagon_field {
 
     createHexagon() {
         let geometry = new THREE.CylinderGeometry(
-            this.size,
-            this.size,
             1,
             6,
             3,
