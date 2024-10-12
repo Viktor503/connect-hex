@@ -27,7 +27,7 @@ function init() {
     //set up change color on hover
     let raycaster = new THREE.Raycaster();
     let mouse = new THREE.Vector2();
-    let selectedField;
+    let selectedField = null;
     renderer.domElement.addEventListener("mousemove", (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -41,7 +41,7 @@ function init() {
                     0xffffff,
                 );
             }
-            if (intersects[0].object.type != "LineSegments2") {
+            if (intersects[0].object.type == "Mesh") {
                 selectedField = intersects[0].object;
                 gameBoard.changeDiagonalColor(
                     selectedField.name,
