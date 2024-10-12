@@ -42,11 +42,13 @@ class GameBoard {
         });
     }
 
-    getDiagonalElements(name) {
-        console.log(name);
+    getCoordinatesFromName(name) {
         let [x, y] = name.split(",");
-        x = parseInt(x);
-        y = parseInt(y);
+        return [parseInt(x), parseInt(y)];
+    }
+
+    getDiagonalElements(name) {
+        let [x, y] = this.getCoordinatesFromName(name);
         let diagonal_value = x - y;
         let diagonal = [];
         for (let i = 0; i < this.size; i++) {
