@@ -13,7 +13,8 @@
     "body-parser": "^1.20.3",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
-    "three": "^0.169.0"
+    "three": "^0.169.0",
+    "three-fatline": "^0.7.1"
   },
   "devDependencies": {
     "prettier-plugin-organize-imports": "^4.1.0"

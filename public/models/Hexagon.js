@@ -1,4 +1,7 @@
 import * as THREE from "three";
+import { LineGeometry } from "three/addons/lines/LineGeometry.js";
+import { LineMaterial } from "three/addons/lines/LineMaterial.js";
+import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
 class Hexagon_field {
     constructor(
         value = 0,
@@ -20,10 +23,18 @@ class Hexagon_field {
             6,
             3,
         );
+
         const edges = new THREE.EdgesGeometry(geometry);
-        const line = new THREE.LineSegments(
-            edges,
-            new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 5 }),
+        let points_geonometry = new LineGeometry();
+        points_geonometry.setPositions(edges.attributes.position.array);
+
+        const line = new LineSegments2(
+            points_geonometry,
+            new LineMaterial({
+                color: 0xffffff,
+                linewidth: 3,
+                resolution: new THREE.Vector2(640, 480),
+            }),
         );
         let mesh = new THREE.Mesh(geometry, this.material);
         mesh.add(line);
