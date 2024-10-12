@@ -35,15 +35,28 @@ function init() {
         let intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
             if (selectedField) {
-                gameBoard.changeDiagonalColor(selectedField.name, 0xffffff);
+                gameBoard.changeDiagonalColor(
+                    selectedField.name,
+                    0xffffff,
+                    0xffffff,
+                );
             }
             if (intersects[0].object.type != "LineSegments2") {
                 selectedField = intersects[0].object;
-                gameBoard.changeDiagonalColor(selectedField.name, 0xff0000);
+                gameBoard.changeDiagonalColor(
+                    selectedField.name,
+                    currentPlayer == 1 ? 0xff0000 : 0x5555ff,
+                    currentPlayer == 1 ? 0x990000 : 0x0000cc,
+                );
             }
         } else {
             if (selectedField) {
-                gameBoard.changeDiagonalColor(selectedField.name, 0xffffff);
+                gameBoard.changeDiagonalColor(
+                    selectedField.name,
+                    0xffffff,
+                    0xffffff,
+                );
+                selectedField = null;
             }
         }
     });
