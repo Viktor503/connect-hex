@@ -1,6 +1,6 @@
 import { OrbitControls } from "OrbitControls";
 import * as THREE from "three";
-import { Hexagon_field } from "./Hexagon.js";
+import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
 function init() {
@@ -20,9 +20,8 @@ function init() {
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
     let material = new THREE.MeshBasicMaterial({ map: texture });
 
-    let hexagon = new Hexagon_field(1, 1, material);
-    let hexa = hexagon.createHexagon();
-    scene.add(hexa);
+    let gameBoard = new GameBoard(boardSize, 1, material);
+    gameBoard.addToScene(scene);
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = 80;

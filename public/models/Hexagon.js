@@ -14,13 +14,19 @@ class Hexagon_field {
 
     createHexagon() {
         let geometry = new THREE.CylinderGeometry(
-            this.size,
-            this.size,
+            (this.size / 2) * (2 / Math.sqrt(3)),
+            (this.size / 2) * (2 / Math.sqrt(3)),
             1,
             6,
             3,
         );
+        const edges = new THREE.EdgesGeometry(geometry);
+        const line = new THREE.LineSegments(
+            edges,
+            new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 5 }),
+        );
         let mesh = new THREE.Mesh(geometry, this.material);
+        mesh.add(line);
         mesh.rotation.x = Math.PI / 2;
         mesh.rotation.y = Math.PI / 2;
         mesh.position.x = this.position.x;
