@@ -40,6 +40,29 @@ class GameBoard {
             });
         });
     }
+
+    getDiagonalElements(name) {
+        console.log(name);
+        let [x, y] = name.split(",");
+        x = parseInt(x);
+        y = parseInt(y);
+        let diagonal_value = x - y;
+        let diagonal = [];
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                if (i - j == diagonal_value) {
+                    diagonal.push(this.board[i][j]);
+                }
+            }
+        }
+        return diagonal;
+    }
+
+    changeDiagonalColor(name, color) {
+        this.getDiagonalElements(name).forEach((field) => {
+            field.material.color.setHex(color);
+        });
+    }
 }
 
 export { GameBoard };
