@@ -77,6 +77,13 @@ class GameBoard {
             colorForNextEmpty,
         );
     }
+
+    markField(name, player) {
+        let field = this.getNextEmptyFieldInDiagonal(name);
+        if (!field) return;
+        console.log(field);
+        field.value = player == 1 ? 1 : -1;
+        field.material.color.setHex(player == 1 ? 0xff0000 : 0x0000ff);
     }
 }
 
