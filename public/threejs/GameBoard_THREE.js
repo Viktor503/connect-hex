@@ -1,5 +1,6 @@
 import { OrbitControls } from "OrbitControls";
 import * as THREE from "three";
+import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
 function init() {
@@ -19,6 +20,8 @@ function init() {
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
     let material = new THREE.MeshBasicMaterial({ map: texture });
 
+    let gameBoard = new GameBoard(boardSize, 1, material);
+    gameBoard.addToScene(scene);
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = 80;
