@@ -17,12 +17,38 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    //set up game board
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
     let material = new THREE.MeshBasicMaterial({ map: texture });
 
     let gameBoard = new GameBoard(boardSize, 1, material);
     gameBoard.addToScene(scene);
 
+    //set up change color on hover
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+    let selectedField;
+    renderer.domElement.addEventListener("mousemove", (event) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        let intersects = raycaster.intersectObjects(scene.children, true);
+        if (intersects.length > 0) {
+            if (selectedField) {
+                gameBoard.changeDiagonalColor(selectedField.name, 0xffffff);
+            }
+            if (intersects[0].object.type != "LineSegments2") {
+                selectedField = intersects[0].object;
+                gameBoard.changeDiagonalColor(selectedField.name, 0xff0000);
+            }
+        } else {
+            if (selectedField) {
+                gameBoard.changeDiagonalColor(selectedField.name, 0xffffff);
+            }
+        }
+    });
+
+    //set up controls
     controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = 80;
     controls.minDistance = 7;
