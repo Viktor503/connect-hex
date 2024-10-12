@@ -25,6 +25,7 @@ class GameBoard {
                     field_pos,
                 );
                 this.board[i][j].createHexagon();
+                this.board[i][j].mesh.name = i + "," + j;
             }
         }
     }
