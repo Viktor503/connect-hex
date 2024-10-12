@@ -11,7 +11,8 @@ class Hexagon_field {
     ) {
         this.value = value;
         this.size = size;
-        this.material = material;
+        // set this.material to a deep copy of the material
+        this.material = material.clone();
         this.position = position;
     }
 
