@@ -27,7 +27,7 @@ function init() {
     //set up change color on hover
     let raycaster = new THREE.Raycaster();
     let mouse = new THREE.Vector2();
-    let selectedField;
+    let selectedField = null;
     renderer.domElement.addEventListener("mousemove", (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -35,17 +35,38 @@ function init() {
         let intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
             if (selectedField) {
-                gameBoard.changeDiagonalColor(selectedField.name, 0xffffff);
+                gameBoard.changeDiagonalColor(
+                    selectedField.name,
+                    0xffffff,
+                    0xffffff,
+                );
             }
-            if (intersects[0].object.type != "LineSegments2") {
+            if (intersects[0].object.type == "Mesh") {
                 selectedField = intersects[0].object;
-                gameBoard.changeDiagonalColor(selectedField.name, 0xff0000);
+                gameBoard.changeDiagonalColor(
+                    selectedField.name,
+                    currentPlayer == 1 ? 0xff0000 : 0x5555ff,
+                    currentPlayer == 1 ? 0x990000 : 0x0000cc,
+                );
             }
         } else {
             if (selectedField) {
-                gameBoard.changeDiagonalColor(selectedField.name, 0xffffff);
+                gameBoard.changeDiagonalColor(
+                    selectedField.name,
+                    0xffffff,
+                    0xffffff,
+                );
+                selectedField = null;
             }
         }
+    });
+
+    //set up click event
+    let currentPlayer = 1;
+    renderer.domElement.addEventListener("click", (event) => {
+        if (!selectedField) return;
+        gameBoard.markField(selectedField.name, currentPlayer);
+        currentPlayer = currentPlayer == 1 ? -1 : 1;
     });
 
     //set up controls

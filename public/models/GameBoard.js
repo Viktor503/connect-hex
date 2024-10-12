@@ -42,16 +42,18 @@ class GameBoard {
         });
     }
 
-    getDiagonalElements(name) {
-        console.log(name);
+    getCoordinatesFromName(name) {
         let [x, y] = name.split(",");
-        x = parseInt(x);
-        y = parseInt(y);
+        return [parseInt(x), parseInt(y)];
+    }
+
+    getDiagonalElements(name) {
+        let [x, y] = this.getCoordinatesFromName(name);
         let diagonal_value = x - y;
         let diagonal = [];
         for (let i = 0; i < this.size; i++) {
             for (let j = 0; j < this.size; j++) {
-                if (i - j == diagonal_value) {
+                if (i - j == diagonal_value && this.board[i][j].value == 0) {
                     diagonal.push(this.board[i][j]);
                 }
             }
@@ -59,10 +61,29 @@ class GameBoard {
         return diagonal;
     }
 
-    changeDiagonalColor(name, color) {
-        this.getDiagonalElements(name).forEach((field) => {
+    getNextEmptyFieldInDiagonal(name) {
+        let diagonal = this.getDiagonalElements(name);
+        if (diagonal.length == 0) return null;
+        return diagonal[diagonal.length - 1];
+    }
+
+    changeDiagonalColor(name, color, colorForNextEmpty) {
+        let diagonals = this.getDiagonalElements(name);
+        if (diagonals.length == 0) return;
+        diagonals.slice(0, -1).forEach((field) => {
             field.material.color.setHex(color);
         });
+        diagonals[diagonals.length - 1].material.color.setHex(
+            colorForNextEmpty,
+        );
+    }
+
+    markField(name, player) {
+        let field = this.getNextEmptyFieldInDiagonal(name);
+        if (!field) return;
+        console.log(field);
+        field.value = player == 1 ? 1 : -1;
+        field.material.color.setHex(player == 1 ? 0xff0000 : 0x0000ff);
     }
 }
 
