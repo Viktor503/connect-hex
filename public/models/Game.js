@@ -1,3 +1,4 @@
+import { Queue } from "./Queue.js";
 class Game {
     constructor(gameBoard) {
         this.gameBoard = gameBoard;
@@ -32,6 +33,34 @@ class Game {
             (x == this.gameBoard.size - 1 && player == 1) ||
             (y == this.gameBoard.size - 1 && player == 2)
         );
+    }
+
+    bfsToGetReachableFields(player_fields, player) {
+        let board = this.gameBoard.getBoardValues();
+        let queue = new Queue();
+        let visited = new Set();
+        queue.enqueue(player_fields[0]);
+
+        while (queue.length() > 0) {
+            let [i, j] = queue.dequeue();
+            let vertexName = i + "," + j;
+            if (!(vertexName in visited)) {
+                visited.add(vertexName);
+                let neighbours = this.returnNeighbours(i, j);
+                neighbours.forEach((neighbour) => {
+                    let [x, y] = neighbour;
+                    let neighbourName = x + "," + y;
+                    if (
+                        this.validField(x, y) &&
+                        board[x][y] == (player == 1 ? 1 : -1) &&
+                        !visited.has(neighbourName)
+                    ) {
+                        queue.enqueue(neighbour);
+                    }
+                });
+            }
+        }
+        return visited;
     }
 
 
