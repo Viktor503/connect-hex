@@ -34,6 +34,31 @@ class GameBoard {
         return this.board;
     }
 
+    getBoardValues() {
+        let board = [];
+        this.board.forEach((row) => {
+            let row_values = [];
+            row.forEach((field) => {
+                row_values.push(field.value);
+            });
+            board.push(row_values);
+        });
+        return board;
+    }
+
+    getPlayerFields(player) {
+        let player_fields = [];
+        let valueBoard = this.getBoardValues();
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                if (valueBoard[i][j] == (player == 1 ? 1 : -1)) {
+                    player_fields.push([i, j]);
+                }
+            }
+        }
+        return player_fields;
+    }
+
     addToScene(scene) {
         this.board.forEach((row) => {
             row.forEach((field) => {
