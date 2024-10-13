@@ -121,7 +121,7 @@ class Game {
     }
 
     switchPlayer() {
-        this.currentPlayer = this.currentPlayer == 1 ? -1 : 1;
+        this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
     }
 
     paintDiagonal(name, active) {
