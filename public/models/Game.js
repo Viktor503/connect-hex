@@ -24,6 +24,16 @@ class Game {
         return neighbours;
     }
 
+    isStartEdge(x, y, player) {
+        return (x == 0 && player == 1) || (y == 0 && player == 2);
+    }
+    isEndEdge(x, y, player) {
+        return (
+            (x == this.gameBoard.size - 1 && player == 1) ||
+            (y == this.gameBoard.size - 1 && player == 2)
+        );
+    }
+
 
     switchPlayer() {
         this.currentPlayer = this.currentPlayer == 1 ? -1 : 1;
