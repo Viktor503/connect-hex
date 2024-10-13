@@ -63,6 +63,34 @@ class Game {
         return visited;
     }
 
+    async checkIfFieldsAreWinning(player_fields, player) {
+        let startEdgeFound = false;
+        let endEdgeFound = false;
+        player_fields.forEach((field) => {
+            let [i, j] = field;
+            startEdgeFound = startEdgeFound || this.isStartEdge(i, j, player);
+            endEdgeFound = endEdgeFound || this.isEndEdge(i, j, player);
+        });
+        console.log("Start edge found:", startEdgeFound);
+        console.log("End edge found:", endEdgeFound);
+        if (startEdgeFound && endEdgeFound) {
+            this.winner = player;
+            // await this.gameBoard.flashFields.then(() => {
+            //     console.log("Player " + player + " wins!");
+            // });
+            await this.gameBoard
+                .flashFields(
+                    player_fields,
+                    player == 1 ? 0xff0000 : 0x0000ff,
+                    0xffffff,
+                )
+                .then(() => {
+                    alert("Player " + player + " wins!");
+                });
+
+            return;
+        }
+    }
 
     switchPlayer() {
         this.currentPlayer = this.currentPlayer == 1 ? -1 : 1;
