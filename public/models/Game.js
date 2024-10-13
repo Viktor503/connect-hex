@@ -139,6 +139,7 @@ class Game {
     markField(name) {
         if (this.winner) return;
         if (this.gameBoard.markField(name, this.currentPlayer)) {
+            this.winCheck();
             this.switchPlayer();
         }
         this.paintDiagonal(name, true);
