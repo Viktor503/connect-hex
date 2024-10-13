@@ -92,6 +92,34 @@ class Game {
         }
     }
 
+    winCheck() {
+        let board = this.gameBoard.getBoardValues();
+        let boardstring = JSON.stringify(board);
+        boardstring = boardstring.replaceAll("],[", "]\n[");
+
+        let playerFields = this.gameBoard.getPlayerFields(this.currentPlayer);
+        console.log("Current player:", this.currentPlayer);
+        while (playerFields.length > 0) {
+            let playerVisitedSetStrings = this.bfsToGetReachableFields(
+                playerFields,
+                this.currentPlayer,
+            );
+            let playerVisitedFields = Array.from(playerVisitedSetStrings).map(
+                (field) => field.split(",").map((x) => parseInt(x)),
+            );
+            console.log("Visited by player strings:", playerVisitedSetStrings);
+            console.log("Visited by player fields:", playerVisitedFields);
+            this.checkIfFieldsAreWinning(
+                playerVisitedFields,
+                this.currentPlayer,
+            );
+            playerFields = playerFields.filter(
+                (field) =>
+                    !playerVisitedSetStrings.has(field[0] + "," + field[1]),
+            );
+        }
+    }
+
     switchPlayer() {
         this.currentPlayer = this.currentPlayer == 1 ? -1 : 1;
     }
