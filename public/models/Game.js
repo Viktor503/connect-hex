@@ -4,6 +4,14 @@ class Game {
         this.currentPlayer = 1;
         this.winner = null;
     }
+    validField(x, y) {
+        return (
+            x >= 0 &&
+            x < this.gameBoard.size &&
+            y >= 0 &&
+            y < this.gameBoard.size
+        );
+    }
 
     switchPlayer() {
         this.currentPlayer = this.currentPlayer == 1 ? -1 : 1;
