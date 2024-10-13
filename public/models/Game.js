@@ -126,10 +126,8 @@ class Game {
 
     paintDiagonal(name, active) {
         if (!active) {
-            console.log("deactivate");
             this.gameBoard.changeDiagonalColor(name, 0xffffff, 0xffffff);
         } else {
-            console.log("active");
             this.gameBoard.changeDiagonalColor(
                 name,
                 this.currentPlayer == 1 ? 0xff0000 : 0x0000ff,
