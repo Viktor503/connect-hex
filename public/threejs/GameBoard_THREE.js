@@ -37,27 +37,15 @@ function init() {
         let intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
             if (selectedField) {
-                gameBoard.changeDiagonalColor(
-                    selectedField.name,
-                    0xffffff,
-                    0xffffff,
-                );
+                game.paintDiagonal(selectedField.name, false);
             }
             if (intersects[0].object.type == "Mesh") {
                 selectedField = intersects[0].object;
-                gameBoard.changeDiagonalColor(
-                    selectedField.name,
-                    game.currentPlayer == 1 ? 0xff0000 : 0x0000ff,
-                    game.currentPlayer == 1 ? 0x990000 : 0x000099,
-                );
+                game.paintDiagonal(selectedField.name, true);
             }
         } else {
             if (selectedField) {
-                gameBoard.changeDiagonalColor(
-                    selectedField.name,
-                    0xffffff,
-                    0xffffff,
-                );
+                game.paintDiagonal(selectedField.name, false);
                 selectedField = null;
             }
         }

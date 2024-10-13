@@ -34,6 +34,31 @@ class GameBoard {
         return this.board;
     }
 
+    getBoardValues() {
+        let board = [];
+        this.board.forEach((row) => {
+            let row_values = [];
+            row.forEach((field) => {
+                row_values.push(field.value);
+            });
+            board.push(row_values);
+        });
+        return board;
+    }
+
+    getPlayerFields(player) {
+        let player_fields = [];
+        let valueBoard = this.getBoardValues();
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                if (valueBoard[i][j] == (player == 1 ? 1 : -1)) {
+                    player_fields.push([i, j]);
+                }
+            }
+        }
+        return player_fields;
+    }
+
     addToScene(scene) {
         this.board.forEach((row) => {
             row.forEach((field) => {
@@ -78,10 +103,37 @@ class GameBoard {
         );
     }
 
+    async flashFields(fieldsPositions, color, default_color) {
+        return new Promise((resolve) => {
+            setTimeout(async () => {
+                for (let index = 0; index < 3; index++) {
+                    console.log("index", index);
+
+                    fieldsPositions.forEach((field) => {
+                        this.board[field[0]][field[1]].material.color.setHex(
+                            default_color,
+                        );
+                    });
+                    await this.sleep(500);
+                    fieldsPositions.forEach((field) => {
+                        this.board[field[0]][field[1]].material.color.setHex(
+                            color,
+                        );
+                    });
+                    await this.sleep(500);
+                }
+                resolve();
+            }, 100);
+        });
+    }
+
+    sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     markField(name, player) {
         let field = this.getNextEmptyFieldInDiagonal(name);
         if (!field) return;
-        console.log(field);
         field.value = player == 1 ? 1 : -1;
         field.material.color.setHex(player == 1 ? 0xff0000 : 0x0000ff);
         return true;
