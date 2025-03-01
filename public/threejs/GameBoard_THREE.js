@@ -20,7 +20,16 @@ function init() {
 
     //set up game board
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
-    let material = new THREE.MeshBasicMaterial({ map: texture });
+    let material = new THREE.MeshLambertMaterial({ map: texture });
+
+
+    //add ambient light
+    // let light = new THREE.AmbientLight(0x0000ff,3);
+    // scene.add(light);
+    let light = new THREE.AmbientLight(0x0000ff, 14);
+    scene.add(light);
+    let light2 = new THREE.AmbientLight(0xffffff, 7);
+    scene.add(light2);
 
     let gameBoard = new GameBoard(boardSize, 1, material);
     let game = new Game(gameBoard);
