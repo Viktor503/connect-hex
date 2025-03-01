@@ -1,17 +1,17 @@
 import { Hexagon_field } from "./Hexagon.js";
 class GameBoard {
-    constructor(size, hexsize, material) {
-        this.size = size;
-        let first_field_pos = { x: 0, y: (size - 1) * (1 / 2) * hexsize, z: 0 };
-        this.board = new Array(size);
-        for (let i = 0; i < size; i++) {
+    constructor(boardsize, hexsize, material) {
+        this.size = boardsize;
+        let first_field_pos = { x: 0, y: (boardsize - 1) * (1 / 2) * hexsize, z: 0 };
+        this.board = new Array(boardsize);
+        for (let i = 0; i < boardsize; i++) {
             if (i != 0) {
                 first_field_pos.x -= (7 / 8) * hexsize;
                 first_field_pos.y -= (1 / 2) * hexsize;
                 first_field_pos.z = 0;
             }
-            this.board[i] = new Array(size);
-            for (let j = 0; j < size; j++) {
+            this.board[i] = new Array(boardsize);
+            for (let j = 0; j < boardsize; j++) {
                 let field_pos = {
                     x: first_field_pos.x + (7 / 8) * hexsize * j,
                     y: first_field_pos.y - (1 / 2) * hexsize * j,
@@ -59,6 +59,13 @@ class GameBoard {
         return player_fields;
     }
 
+    printBoard() {
+        let board = this.getBoardValues();
+        board.forEach((row) => {
+            console.log(row);
+        });
+    }
+
     addToScene(scene) {
         this.board.forEach((row) => {
             row.forEach((field) => {
@@ -103,6 +110,13 @@ class GameBoard {
         );
     }
 
+    changeFieldColor(name, color) {
+        let [x, y] = this.getCoordinatesFromName(name);
+        if (this.board[x][y].value == 0){
+            this.board[x][y].material.color.setHex(color);
+        }
+    }
+
     async flashFields(fieldsPositions, color, default_color) {
         return new Promise((resolve) => {
             setTimeout(async () => {
@@ -131,11 +145,19 @@ class GameBoard {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    markField(name, player) {
-        let field = this.getNextEmptyFieldInDiagonal(name);
+    markField(name, player,hex_mode) {
+        let field;
+        if(hex_mode){
+            let [x, y] = this.getCoordinatesFromName(name);
+            field = this.getBoardValues()[x][y] == 0 ? this.board[x][y] : null;
+
+        }else{
+            field = this.getNextEmptyFieldInDiagonal(name);    
+        }
         if (!field) return;
         field.value = player == 1 ? 1 : -1;
         field.material.color.setHex(player == 1 ? 0xff0000 : 0x0000ff);
+
         return true;
     }
 }

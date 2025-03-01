@@ -7,6 +7,7 @@ let scene, renderer, camera, thing, controls;
 function init() {
     //set up scene and camera
     scene = new THREE.Scene();
+    console.log(hex_mode)
     camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -37,15 +38,16 @@ function init() {
         let intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
             if (selectedField) {
-                game.paintDiagonal(selectedField.name, false);
+                game.paintMove(selectedField.name, false,hex_mode);
             }
-            if (intersects[0].object.type == "Mesh") {
+            if (intersects[0].object.type == "Mesh" && intersects[0].object.name != "") {
                 selectedField = intersects[0].object;
-                game.paintDiagonal(selectedField.name, true);
+                console.log(selectedField)
+                game.paintMove(selectedField.name, true,hex_mode);
             }
         } else {
             if (selectedField) {
-                game.paintDiagonal(selectedField.name, false);
+                game.paintMove(selectedField.name, false,hex_mode);
                 selectedField = null;
             }
         }
@@ -54,7 +56,7 @@ function init() {
     //set up click event
     renderer.domElement.addEventListener("click", (event) => {
         if (!selectedField) return;
-        game.markField(selectedField.name);
+        game.markField(selectedField.name,hex_mode);
     });
 
     //set up controls
