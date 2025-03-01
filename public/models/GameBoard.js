@@ -1,17 +1,17 @@
 import { Hexagon_field } from "./Hexagon.js";
 class GameBoard {
-    constructor(size, hexsize, material) {
-        this.size = size;
-        let first_field_pos = { x: 0, y: (size - 1) * (1 / 2) * hexsize, z: 0 };
-        this.board = new Array(size);
-        for (let i = 0; i < size; i++) {
+    constructor(boardsize, hexsize, material) {
+        this.size = boardsize;
+        let first_field_pos = { x: 0, y: (boardsize - 1) * (1 / 2) * hexsize, z: 0 };
+        this.board = new Array(boardsize);
+        for (let i = 0; i < boardsize; i++) {
             if (i != 0) {
                 first_field_pos.x -= (7 / 8) * hexsize;
                 first_field_pos.y -= (1 / 2) * hexsize;
                 first_field_pos.z = 0;
             }
-            this.board[i] = new Array(size);
-            for (let j = 0; j < size; j++) {
+            this.board[i] = new Array(boardsize);
+            for (let j = 0; j < boardsize; j++) {
                 let field_pos = {
                     x: first_field_pos.x + (7 / 8) * hexsize * j,
                     y: first_field_pos.y - (1 / 2) * hexsize * j,
