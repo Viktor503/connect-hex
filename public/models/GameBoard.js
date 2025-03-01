@@ -110,6 +110,13 @@ class GameBoard {
         );
     }
 
+    changeFieldColor(name, color) {
+        let [x, y] = this.getCoordinatesFromName(name);
+        if (this.board[x][y].value == 0){
+            this.board[x][y].material.color.setHex(color);
+        }
+    }
+
     async flashFields(fieldsPositions, color, default_color) {
         return new Promise((resolve) => {
             setTimeout(async () => {
