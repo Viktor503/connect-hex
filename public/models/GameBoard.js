@@ -145,11 +145,19 @@ class GameBoard {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    markField(name, player) {
-        let field = this.getNextEmptyFieldInDiagonal(name);
+    markField(name, player,hex_mode) {
+        let field;
+        if(hex_mode){
+            let [x, y] = this.getCoordinatesFromName(name);
+            field = this.getBoardValues()[x][y] == 0 ? this.board[x][y] : null;
+
+        }else{
+            field = this.getNextEmptyFieldInDiagonal(name);    
+        }
         if (!field) return;
         field.value = player == 1 ? 1 : -1;
         field.material.color.setHex(player == 1 ? 0xff0000 : 0x0000ff);
+
         return true;
     }
 }
