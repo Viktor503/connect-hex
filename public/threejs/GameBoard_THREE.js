@@ -7,7 +7,6 @@ let scene, renderer, camera, thing, controls;
 function init() {
     //set up scene and camera
     scene = new THREE.Scene();
-    console.log(hex_mode)
     camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -42,7 +41,6 @@ function init() {
             }
             if (intersects[0].object.type == "Mesh" && intersects[0].object.name != "") {
                 selectedField = intersects[0].object;
-                console.log(selectedField)
                 game.paintMove(selectedField.name, true,hex_mode);
             }
         } else {
