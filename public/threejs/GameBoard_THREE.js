@@ -7,6 +7,7 @@ let scene, renderer, camera, thing, controls;
 function init() {
     //set up scene and camera
     scene = new THREE.Scene();
+    console.log(hex_mode)
     camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
