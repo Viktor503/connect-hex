@@ -59,6 +59,13 @@ class GameBoard {
         return player_fields;
     }
 
+    printBoard() {
+        let board = this.getBoardValues();
+        board.forEach((row) => {
+            console.log(row);
+        });
+    }
+
     addToScene(scene) {
         this.board.forEach((row) => {
             row.forEach((field) => {
