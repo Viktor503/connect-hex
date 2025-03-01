@@ -17,12 +17,36 @@ class GameBoard {
                     y: first_field_pos.y - (1 / 2) * hexsize * j,
                     z: first_field_pos.z,
                 };
+                //get side
+                let side = null;
+                if(i==0 && j==0){
+                    side = "N";
+                }else if(i==0 && j==boardsize-1){
+                    side = "E";
+                }else if(i==boardsize-1 && j==boardsize-1){
+                    side = "S";
+                }else if(i==boardsize-1 && j==0){
+                    side = "W";
+                }else if(i==0){
+                    side = "NE";
+                }else if(j==boardsize-1){
+                    side = "SE";
+                }else if(i==boardsize-1){
+                    side = "SW";
+                }else if(j==0){
+                    side = "NW";
+                }
+
+
+
+
                 //print field_pos as string
                 this.board[i][j] = new Hexagon_field(
                     0,
                     hexsize,
                     material,
                     field_pos,
+                    side,
                 );
                 this.board[i][j].createHexagon();
                 this.board[i][j].mesh.name = i + "," + j;
