@@ -51,6 +51,8 @@ const initialize = (server) => {
         });
 
         socket.on("wincheck", (data) => {
+            room = gameRooms[data.roomId];
+            if (room) {
             wincheckResponse = winCheck(
                 data.player,
                 gameRooms[data.roomId].gameState,
@@ -66,6 +68,7 @@ const initialize = (server) => {
                     fields: fields,
                 });
                 console.log(`Player ${data.player} won the game`);
+            }
             }
         });
 
