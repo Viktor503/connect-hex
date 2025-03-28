@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/css/gamewindow.css" type="text/css" />
+        <style>
+            #game-info {
+                position: absolute;
+                top: 0px;
+                left: 10px;
+                width: 50%;
+                text-align: left;
+                z-index: 100;
+                display: block;
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "/threejs/build/three.module.js",
+                    "three/addons/": "/threejs/addons/"
+                }
+            }
+        </script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/models/client.js"></script>
+        <script>
+            const boardSize = <%=board_size%>;
+            const hex_mode = <%=hex_mode%>;
+            const online_mode = true;
+        </script>
+
+        <div id="waiting-message">
+            <p id="waiting-message-text">Joining room.</p>
+        </div>
+        <!-- Game container, initially hidden -->
+        <div id="game-container" style="display: none">
+            <!-- Game will be loaded here -->
+            <div id="game-info">
+                <p id="players_info"></p>
+            </div>
+        </div>
+
+        <!-- Preload the game script but don't execute it -->
+        <script type="module" id="game-script-loader">
+            // This function will be called when it's time to start the game
+            window.startGame = function () {
+                import("/threejs/GameBoard_THREE.js").then((module) => {
+                    console.log("Game module loaded");
+                    // Any initialization can happen here
+                });
+            };
+        </script>
+    </body>
+</html>
