@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 //const rooms = {};
 
-const socketManager = require("./public/socketio/socketio_manage.js");
+const socketManager = require("./public/socketio/socketio_manager.js");
 socketManager.initialize(server);
 
 const PORT = 3000;
