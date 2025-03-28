@@ -14,18 +14,12 @@ function writePlayerListGui(players) {
         ([key, value]) => value === 2,
     );
 
-    console.log(playerOne, playerTwo);
-    console.log(socket.id);
-    console.log(socket.id == playerOne[0], socket.id == playerTwo[0]);
-    console.log(currentPlayer);
     // Create the bold red span
     const player1 = document.createElement("span");
     player1.textContent = `player1${socket.id == playerOne[0] ? " (you)" : ""}`;
 
     const player2 = document.createElement("span");
     player2.textContent = `player2${socket.id == playerTwo[0] ? " (you)" : ""}`;
-
-    console.log(player1, player2);
 
     if (currentPlayer == 1) player1.style.fontWeight = "bold"; // Make it bold
     if (currentPlayer == 2) player2.style.fontWeight = "bold"; // Make it bold
@@ -86,9 +80,6 @@ function gameMove(move) {
     writePlayerListGui(players);
 }
 
-socket.on("connect", () => {
-    console.log(`You connected with id ${socket.id}`);
-});
 socket.on("joinRoom", (data) => {
     console.log(`Joined room ${data["roomId"]}`);
     document.getElementById("waiting-message-text").innerHTML =
@@ -111,7 +102,6 @@ socket.on("playersConnected", (data) => {
     // Show game container
     document.getElementById("game-container").style.display = "block";
     console.log("players connected");
-    console.log(data.players);
     players = data.players;
 
     // Start the game
@@ -132,7 +122,6 @@ socket.on("gameRestarted", (data) => {
     currentPlayer = 1;
     game.loadgameState(data.gameState);
     players = data.players;
-    console.log(game.winner);
     game.winner = null;
     writePlayerListGui(players);
 });

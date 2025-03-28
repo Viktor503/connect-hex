@@ -106,10 +106,6 @@ const initialize = (server) => {
                         io.to(roomId).emit("playersConnected", {
                             players: room.players,
                         });
-                        console.log("**************");
-                        console.log(room.players);
-                        console.log(socket.id);
-                        console.log("**************");
                         socket.emit("playerOrder", {
                             order: room.players[socket.id],
                         });
@@ -192,9 +188,6 @@ const initialize = (server) => {
                     });
                 }
             }
-            // console.log("moved xdddddd");
-            // console.log(room.gameConfig.hex_mode);
-            // console.log(room);
         });
     });
 };
