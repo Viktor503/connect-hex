@@ -4,6 +4,31 @@ import { Game } from "../models/Game.js";
 import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
+function writePlayerListGui() {
+    players_info = document.getElementById("players_info");
+    players_info.innerHTML = "";
+
+    // Create the bold red span
+    const player1 = document.createElement("span");
+    player1.textContent = `player1`;
+
+    const player2 = document.createElement("span");
+    player2.textContent = `player2`;
+
+    if (game.currentPlayer == 1) player1.style.fontWeight = "bold"; // Make it bold
+    if (game.currentPlayer == 2) player2.style.fontWeight = "bold"; // Make it bold
+
+    player1.style.color = "red";
+    player2.style.color = "RoyalBlue";
+
+    const br = document.createElement("br");
+
+    // Append both spans to the paragraph
+    players_info.appendChild(player1);
+    players_info.appendChild(br);
+    players_info.appendChild(player2);
+}
+
 function init() {
     //set up scene and camera
     scene = new THREE.Scene();
@@ -22,7 +47,6 @@ function init() {
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
     let material = new THREE.MeshLambertMaterial({ map: texture });
 
-
     //add ambient light
     // let light = new THREE.AmbientLight(0x0000ff,3);
     // scene.add(light);
@@ -33,8 +57,16 @@ function init() {
 
     let gameBoard = new GameBoard(boardSize, 1, material);
     let game = new Game(gameBoard);
+    if (online_mode) {
+        if (order == 2) {
+            game.switchPlayer();
+        }
+    }
+    window.game = game;
     gameBoard.addToScene(scene);
-
+    if (!online_mode) {
+        writePlayerListGui({});
+    }
     //set up change color on hover
     let raycaster = new THREE.Raycaster();
     let mouse = new THREE.Vector2();
@@ -46,15 +78,18 @@ function init() {
         let intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
             if (selectedField) {
-                game.paintMove(selectedField.name, false,hex_mode);
+                game.paintMove(selectedField.name, false, hex_mode);
             }
-            if (intersects[0].object.type == "Mesh" && intersects[0].object.name != "") {
+            if (
+                intersects[0].object.type == "Mesh" &&
+                intersects[0].object.name != ""
+            ) {
                 selectedField = intersects[0].object;
-                game.paintMove(selectedField.name, true,hex_mode);
+                game.paintMove(selectedField.name, true, hex_mode);
             }
         } else {
             if (selectedField) {
-                game.paintMove(selectedField.name, false,hex_mode);
+                game.paintMove(selectedField.name, false, hex_mode);
                 selectedField = null;
             }
         }
@@ -63,7 +98,14 @@ function init() {
     //set up click event
     renderer.domElement.addEventListener("click", (event) => {
         if (!selectedField) return;
-        game.markField(selectedField.name,hex_mode);
+
+        if (online_mode) {
+            game.markField(selectedField.name, hex_mode, false, false);
+            gameMove(selectedField.name);
+        } else {
+            game.markField(selectedField.name, hex_mode);
+            writePlayerListGui();
+        }
     });
 
     //set up controls

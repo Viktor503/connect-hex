@@ -92,27 +92,23 @@ class Game {
         }
     }
 
-    winCheck() {
+    winCheck(player = this.currentPlayer) {
         let board = this.gameBoard.getBoardValues();
         let boardstring = JSON.stringify(board);
         boardstring = boardstring.replaceAll("],[", "]\n[");
 
-        let playerFields = this.gameBoard.getPlayerFields(this.currentPlayer);
-        console.log("Current player:", this.currentPlayer);
+        let playerFields = this.gameBoard.getPlayerFields(player);
         while (playerFields.length > 0) {
             let playerVisitedSetStrings = this.bfsToGetReachableFields(
                 playerFields,
-                this.currentPlayer,
+                player,
             );
             let playerVisitedFields = Array.from(playerVisitedSetStrings).map(
                 (field) => field.split(",").map((x) => parseInt(x)),
             );
             console.log("Visited by player strings:", playerVisitedSetStrings);
             console.log("Visited by player fields:", playerVisitedFields);
-            this.checkIfFieldsAreWinning(
-                playerVisitedFields,
-                this.currentPlayer,
-            );
+            this.checkIfFieldsAreWinning(playerVisitedFields, player);
             playerFields = playerFields.filter(
                 (field) =>
                     !playerVisitedSetStrings.has(field[0] + "," + field[1]),
@@ -136,33 +132,36 @@ class Game {
         }
     }
 
-    paintField(name,active){
+    paintField(name, active) {
         if (!active) {
             this.gameBoard.changeFieldColor(name, 0xffffff);
         } else {
             this.gameBoard.changeFieldColor(
                 name,
-                this.currentPlayer == 1 ? 0xff0000 : 0x0000ff
+                this.currentPlayer == 1 ? 0xff0000 : 0x0000ff,
             );
         }
     }
 
-    paintMove(name,active,hex_mode){
-        if(hex_mode){
-            this.paintField(name,active);
-        }else{
-            this.paintDiagonal(name,active);
+    paintMove(name, active, hex_mode) {
+        if (hex_mode) {
+            this.paintField(name, active);
+        } else {
+            this.paintDiagonal(name, active);
         }
     }
 
-    markField(name,hex_mode) {
+    loadgameState(gameState) {
+        this.gameBoard.loadgameState(gameState);
+    }
+
+    markField(name, hex_mode, switchPlayer = true, winCheck = true) {
         if (this.winner) return;
-        console.log("Hex mode from game.js",hex_mode)
-        if (this.gameBoard.markField(name, this.currentPlayer,hex_mode)) {
-            this.winCheck();
-            this.switchPlayer();
+        if (this.gameBoard.markField(name, this.currentPlayer, hex_mode)) {
+            if (winCheck) this.winCheck();
+            if (switchPlayer) this.switchPlayer();
         }
-        this.paintMove(name,true,hex_mode);
+        this.paintMove(name, true, hex_mode);
     }
 }
 
