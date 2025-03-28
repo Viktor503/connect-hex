@@ -110,10 +110,10 @@ function winCheck(player, board) {
     return { winner: false, fields: [] };
 }
 
-function randstr(prefix) {
-    const random = Math.random().toString(36).substring(2, 8); // Get exactly 6 characters starting after "0."
+function randstr() {
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase(); // Get exactly 6 characters starting after "0."
 
-    return (prefix || "") + random;
+    return random;
 }
 
 function differenceBetweenArrays(arr1, arr2) {

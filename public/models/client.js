@@ -14,18 +14,12 @@ function writePlayerListGui(players) {
         ([key, value]) => value === 2,
     );
 
-    console.log(playerOne, playerTwo);
-    console.log(socket.id);
-    console.log(socket.id == playerOne[0], socket.id == playerTwo[0]);
-    console.log(currentPlayer);
     // Create the bold red span
     const player1 = document.createElement("span");
     player1.textContent = `player1${socket.id == playerOne[0] ? " (you)" : ""}`;
 
     const player2 = document.createElement("span");
     player2.textContent = `player2${socket.id == playerTwo[0] ? " (you)" : ""}`;
-
-    console.log(player1, player2);
 
     if (currentPlayer == 1) player1.style.fontWeight = "bold"; // Make it bold
     if (currentPlayer == 2) player2.style.fontWeight = "bold"; // Make it bold
@@ -64,11 +58,9 @@ function createGame() {
 }
 function joinGame() {
     let gameId = document.getElementById("game_id").value;
-    payload = { game_id: gameId };
-    console.log("*********************");
-    console.log("joinGame", payload);
-    console.log("*********************");
-    socket.emit("joinRoom", gameId);
+    let url = `${window.location.origin}/game/${gameId}`;
+
+    window.location.replace(url);
 }
 
 function gameMove(move) {
@@ -86,9 +78,6 @@ function gameMove(move) {
     writePlayerListGui(players);
 }
 
-socket.on("connect", () => {
-    console.log(`You connected with id ${socket.id}`);
-});
 socket.on("joinRoom", (data) => {
     console.log(`Joined room ${data["roomId"]}`);
     document.getElementById("waiting-message-text").innerHTML =
@@ -111,7 +100,6 @@ socket.on("playersConnected", (data) => {
     // Show game container
     document.getElementById("game-container").style.display = "block";
     console.log("players connected");
-    console.log(data.players);
     players = data.players;
 
     // Start the game
@@ -132,7 +120,6 @@ socket.on("gameRestarted", (data) => {
     currentPlayer = 1;
     game.loadgameState(data.gameState);
     players = data.players;
-    console.log(game.winner);
     game.winner = null;
     writePlayerListGui(players);
 });
@@ -174,9 +161,10 @@ socket.on("gameStateError", (data) => {
     game.loadgameState(data.gameState);
     currentPlayer = currentPlayer == 1 ? 2 : 1;
     writePlayerListGui(players);
-    console.log("----------------GAME STATE ERROR------------------");
-    console.log(data.message);
-    console.log(data.gameState);
+    alert(
+        `----------------GAME STATE ERROR------------------\n${data.message}`,
+    );
+    console.log("reloading game state:", data.gameState);
 });
 
 socket.on("opponentDisconnect", () => {
@@ -189,15 +177,14 @@ socket.on("opponentDisconnect", () => {
 let error = "";
 socket.on("error", (data) => {
     error = data;
-    console.log("----------------ERROR------------------");
-    console.log(error);
-    document.getElementById("waiting-message-text").innerHTML = error;
+    alert(`----------------ERROR------------------\n${error}`);
+    window.location.replace(window.location.origin);
 });
 
 let current_url = window.location.href;
 let roomIdFromUrl;
 
-let re = new RegExp(window.location.origin + "/game/room-[\\w]{6}");
+let re = new RegExp(window.location.origin + "/game/[\\w]{6}");
 if (re.test(current_url)) {
     roomIdFromUrl = current_url.split("/game")[1].slice(1);
     socket.emit("joinRoom", { gameId: roomIdFromUrl });
