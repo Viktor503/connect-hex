@@ -103,6 +103,9 @@ function init() {
             game.markField(selectedField.name, hex_mode, false, false);
             gameMove(selectedField.name);
         } else {
+            game.markField(selectedField.name, hex_mode);
+            writePlayerListGui();
+        }
     });
 
     //set up controls
