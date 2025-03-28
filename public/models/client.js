@@ -161,9 +161,10 @@ socket.on("gameStateError", (data) => {
     game.loadgameState(data.gameState);
     currentPlayer = currentPlayer == 1 ? 2 : 1;
     writePlayerListGui(players);
-    console.log("----------------GAME STATE ERROR------------------");
-    console.log(data.message);
-    console.log(data.gameState);
+    alert(
+        `----------------GAME STATE ERROR------------------\n${data.message}`,
+    );
+    console.log("reloading game state:", data.gameState);
 });
 
 socket.on("opponentDisconnect", () => {
@@ -176,9 +177,8 @@ socket.on("opponentDisconnect", () => {
 let error = "";
 socket.on("error", (data) => {
     error = data;
-    console.log("----------------ERROR------------------");
-    console.log(error);
-    document.getElementById("waiting-message-text").innerHTML = error;
+    alert(`----------------ERROR------------------\n${error}`);
+    window.location.replace(window.location.origin);
 });
 
 let current_url = window.location.href;
