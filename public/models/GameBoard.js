@@ -2,7 +2,11 @@ import { Hexagon_field } from "./Hexagon.js";
 class GameBoard {
     constructor(boardsize, hexsize, material) {
         this.size = boardsize;
-        let first_field_pos = { x: 0, y: (boardsize - 1) * (1 / 2) * hexsize, z: 0 };
+        let first_field_pos = {
+            x: 0,
+            y: (boardsize - 1) * (1 / 2) * hexsize,
+            z: 0,
+        };
         this.board = new Array(boardsize);
         for (let i = 0; i < boardsize; i++) {
             if (i != 0) {
@@ -19,26 +23,23 @@ class GameBoard {
                 };
                 //get side
                 let side = null;
-                if(i==0 && j==0){
+                if (i == 0 && j == 0) {
                     side = "N";
-                }else if(i==0 && j==boardsize-1){
+                } else if (i == 0 && j == boardsize - 1) {
                     side = "E";
-                }else if(i==boardsize-1 && j==boardsize-1){
+                } else if (i == boardsize - 1 && j == boardsize - 1) {
                     side = "S";
-                }else if(i==boardsize-1 && j==0){
+                } else if (i == boardsize - 1 && j == 0) {
                     side = "W";
-                }else if(i==0){
+                } else if (i == 0) {
                     side = "NE";
-                }else if(j==boardsize-1){
+                } else if (j == boardsize - 1) {
                     side = "SE";
-                }else if(i==boardsize-1){
+                } else if (i == boardsize - 1) {
                     side = "SW";
-                }else if(j==0){
+                } else if (j == 0) {
                     side = "NW";
                 }
-
-
-
 
                 //print field_pos as string
                 this.board[i][j] = new Hexagon_field(
@@ -136,7 +137,7 @@ class GameBoard {
 
     changeFieldColor(name, color) {
         let [x, y] = this.getCoordinatesFromName(name);
-        if (this.board[x][y].value == 0){
+        if (this.board[x][y].value == 0) {
             this.board[x][y].material.color.setHex(color);
         }
     }
@@ -188,14 +189,13 @@ class GameBoard {
         }
     }
 
-    markField(name, player,hex_mode) {
+    markField(name, player, hex_mode) {
         let field;
-        if(hex_mode){
+        if (hex_mode) {
             let [x, y] = this.getCoordinatesFromName(name);
             field = this.getBoardValues()[x][y] == 0 ? this.board[x][y] : null;
-
-        }else{
-            field = this.getNextEmptyFieldInDiagonal(name);    
+        } else {
+            field = this.getNextEmptyFieldInDiagonal(name);
         }
         if (!field) return;
         field.value = player == 1 ? 1 : -1;
