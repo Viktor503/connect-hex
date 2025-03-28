@@ -58,11 +58,9 @@ function createGame() {
 }
 function joinGame() {
     let gameId = document.getElementById("game_id").value;
-    payload = { game_id: gameId };
-    console.log("*********************");
-    console.log("joinGame", payload);
-    console.log("*********************");
-    socket.emit("joinRoom", gameId);
+    let url = `${window.location.origin}/game/${gameId}`;
+
+    window.location.replace(url);
 }
 
 function gameMove(move) {
