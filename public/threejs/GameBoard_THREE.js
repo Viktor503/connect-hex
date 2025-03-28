@@ -78,15 +78,18 @@ function init() {
         let intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
             if (selectedField) {
-                game.paintMove(selectedField.name, false,hex_mode);
+                game.paintMove(selectedField.name, false, hex_mode);
             }
-            if (intersects[0].object.type == "Mesh" && intersects[0].object.name != "") {
+            if (
+                intersects[0].object.type == "Mesh" &&
+                intersects[0].object.name != ""
+            ) {
                 selectedField = intersects[0].object;
-                game.paintMove(selectedField.name, true,hex_mode);
+                game.paintMove(selectedField.name, true, hex_mode);
             }
         } else {
             if (selectedField) {
-                game.paintMove(selectedField.name, false,hex_mode);
+                game.paintMove(selectedField.name, false, hex_mode);
                 selectedField = null;
             }
         }
@@ -95,7 +98,11 @@ function init() {
     //set up click event
     renderer.domElement.addEventListener("click", (event) => {
         if (!selectedField) return;
-        game.markField(selectedField.name,hex_mode);
+
+        if (online_mode) {
+            game.markField(selectedField.name, hex_mode, false, false);
+            gameMove(selectedField.name);
+        } else {
     });
 
     //set up controls
