@@ -53,22 +53,22 @@ const initialize = (server) => {
         socket.on("wincheck", (data) => {
             room = gameRooms[data.roomId];
             if (room) {
-            wincheckResponse = winCheck(
-                data.player,
-                gameRooms[data.roomId].gameState,
-            );
-            console.log(wincheckResponse);
-            const winner = wincheckResponse["winner"];
-            const fields = wincheckResponse["fields"];
-            console.log("Winner:", winner);
-            console.log("Fields:", fields);
-            if (winner) {
-                io.to(data.roomId).emit("gameOver", {
-                    winner: data.player,
-                    fields: fields,
-                });
-                console.log(`Player ${data.player} won the game`);
-            }
+                wincheckResponse = winCheck(
+                    data.player,
+                    gameRooms[data.roomId].gameState,
+                );
+                console.log(wincheckResponse);
+                const winner = wincheckResponse["winner"];
+                const fields = wincheckResponse["fields"];
+                console.log("Winner:", winner);
+                console.log("Fields:", fields);
+                if (winner) {
+                    io.to(data.roomId).emit("gameOver", {
+                        winner: data.player,
+                        fields: fields,
+                    });
+                    console.log(`Player ${data.player} won the game`);
+                }
             }
         });
 
@@ -129,14 +129,20 @@ const initialize = (server) => {
             console.log("Player disconnected:", socket.id);
             for (const roomId in gameRooms) {
                 if (
-                    Object.keys(gameRooms[roomId].players).includes(
-                        socket.id,
-                    ) &&
-                    Object.keys(gameRooms[roomId].players).length == 2
+                    Object.keys(gameRooms[roomId].players).includes(socket.id)
                 ) {
-                    io.to(getEnemyId(gameRooms[roomId], socket.id)).emit(
-                        "opponentDisconnect",
-                    );
+                    if (Object.keys(gameRooms[roomId].players).length == 2) {
+                        io.to(getEnemyId(gameRooms[roomId], socket.id)).emit(
+                            "opponentDisconnect",
+                        );
+                        console.log(gameRooms[roomId].players[socket.id]);
+                    }
+                    delete gameRooms[roomId].players[socket.id];
+
+                    if (Object.keys(gameRooms[roomId].players).length == 0) {
+                        console.log(`Deleting room ${roomId}`);
+                        delete gameRooms[roomId];
+                    }
                 }
             }
         });
