@@ -92,27 +92,23 @@ class Game {
         }
     }
 
-    winCheck() {
+    winCheck(player = this.currentPlayer) {
         let board = this.gameBoard.getBoardValues();
         let boardstring = JSON.stringify(board);
         boardstring = boardstring.replaceAll("],[", "]\n[");
 
-        let playerFields = this.gameBoard.getPlayerFields(this.currentPlayer);
-        console.log("Current player:", this.currentPlayer);
+        let playerFields = this.gameBoard.getPlayerFields(player);
         while (playerFields.length > 0) {
             let playerVisitedSetStrings = this.bfsToGetReachableFields(
                 playerFields,
-                this.currentPlayer,
+                player,
             );
             let playerVisitedFields = Array.from(playerVisitedSetStrings).map(
                 (field) => field.split(",").map((x) => parseInt(x)),
             );
             console.log("Visited by player strings:", playerVisitedSetStrings);
             console.log("Visited by player fields:", playerVisitedFields);
-            this.checkIfFieldsAreWinning(
-                playerVisitedFields,
-                this.currentPlayer,
-            );
+            this.checkIfFieldsAreWinning(playerVisitedFields, player);
             playerFields = playerFields.filter(
                 (field) =>
                     !playerVisitedSetStrings.has(field[0] + "," + field[1]),
