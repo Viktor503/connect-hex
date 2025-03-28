@@ -151,6 +151,10 @@ class Game {
         }
     }
 
+    loadgameState(gameState) {
+        this.gameBoard.loadgameState(gameState);
+    }
+
     markField(name, hex_mode, switchPlayer = true, winCheck = true) {
         if (this.winner) return;
         if (this.gameBoard.markField(name, this.currentPlayer, hex_mode)) {

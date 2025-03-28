@@ -169,6 +169,25 @@ class GameBoard {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
+    loadgameState(gameState) {
+        for (let x = 0; x < gameState.length; x++) {
+            for (let y = 0; y < gameState[0].length; y++) {
+                this.board[x][y].value = gameState[x][y];
+                switch (gameState[x][y]) {
+                    case 1:
+                        this.board[x][y].material.color.setHex(0xff0000);
+                        break;
+                    case -1:
+                        this.board[x][y].material.color.setHex(0x0000ff);
+                        break;
+                    default:
+                        this.board[x][y].material.color.setHex(0xffffff);
+                        break;
+                }
+            }
+        }
+    }
+
     markField(name, player,hex_mode) {
         let field;
         if(hex_mode){
