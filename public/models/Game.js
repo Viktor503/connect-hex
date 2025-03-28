@@ -132,33 +132,32 @@ class Game {
         }
     }
 
-    paintField(name,active){
+    paintField(name, active) {
         if (!active) {
             this.gameBoard.changeFieldColor(name, 0xffffff);
         } else {
             this.gameBoard.changeFieldColor(
                 name,
-                this.currentPlayer == 1 ? 0xff0000 : 0x0000ff
+                this.currentPlayer == 1 ? 0xff0000 : 0x0000ff,
             );
         }
     }
 
-    paintMove(name,active,hex_mode){
-        if(hex_mode){
-            this.paintField(name,active);
-        }else{
-            this.paintDiagonal(name,active);
+    paintMove(name, active, hex_mode) {
+        if (hex_mode) {
+            this.paintField(name, active);
+        } else {
+            this.paintDiagonal(name, active);
         }
     }
 
-    markField(name,hex_mode) {
+    markField(name, hex_mode, switchPlayer = true, winCheck = true) {
         if (this.winner) return;
-        console.log("Hex mode from game.js",hex_mode)
-        if (this.gameBoard.markField(name, this.currentPlayer,hex_mode)) {
-            this.winCheck();
-            this.switchPlayer();
+        if (this.gameBoard.markField(name, this.currentPlayer, hex_mode)) {
+            if (winCheck) this.winCheck();
+            if (switchPlayer) this.switchPlayer();
         }
-        this.paintMove(name,true,hex_mode);
+        this.paintMove(name, true, hex_mode);
     }
 }
 
