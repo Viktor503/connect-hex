@@ -36,7 +36,7 @@ const initialize = (server) => {
 
         socket.on("createGame", (gameConfig) => {
             console.log(gameConfig);
-            const roomId = randstr("room-");
+            const roomId = randstr();
             gameRooms[roomId] = {
                 players: {},
                 currentPlayer: 1,

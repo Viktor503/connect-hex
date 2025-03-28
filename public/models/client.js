@@ -184,7 +184,7 @@ socket.on("error", (data) => {
 let current_url = window.location.href;
 let roomIdFromUrl;
 
-let re = new RegExp(window.location.origin + "/game/room-[\\w]{6}");
+let re = new RegExp(window.location.origin + "/game/[\\w]{6}");
 if (re.test(current_url)) {
     roomIdFromUrl = current_url.split("/game")[1].slice(1);
     socket.emit("joinRoom", { gameId: roomIdFromUrl });
