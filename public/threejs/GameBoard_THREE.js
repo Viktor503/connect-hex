@@ -10,10 +10,15 @@ function writePlayerListGui() {
 
     // Create the bold red span
     const player1 = document.createElement("span");
-    player1.textContent = `player1`;
-
     const player2 = document.createElement("span");
-    player2.textContent = `player2`;
+
+    if (ai_mode) {
+        player1.textContent = `player1 ${player_order == 1 ? "(you)" : "(ai)"}`;
+        player2.textContent = `player2 ${player_order == 2 ? "(you)" : "(ai)"}`;
+    } else {
+        player1.textContent = `player1`;
+        player2.textContent = `player2`;
+    }
 
     if (game.currentPlayer == 1) player1.style.fontWeight = "bold"; // Make it bold
     if (game.currentPlayer == 2) player2.style.fontWeight = "bold"; // Make it bold
