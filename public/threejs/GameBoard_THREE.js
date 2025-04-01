@@ -48,6 +48,18 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    //set up controls
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.maxDistance = 80;
+    controls.minDistance = 7;
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.minAzimuthAngle = -Math.PI / 4;
+    controls.maxAzimuthAngle = Math.PI / 4;
+    controls.minPolarAngle = Math.PI / 4;
+    controls.maxPolarAngle = Math.PI * (3 / 4);
+
     //set up game board
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
     let material = new THREE.MeshLambertMaterial({ map: texture });
@@ -112,18 +124,6 @@ function init() {
             writePlayerListGui();
         }
     });
-
-    //set up controls
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.maxDistance = 80;
-    controls.minDistance = 7;
-    controls.enablePan = false;
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.minAzimuthAngle = -Math.PI / 4;
-    controls.maxAzimuthAngle = Math.PI / 4;
-    controls.minPolarAngle = Math.PI / 4;
-    controls.maxPolarAngle = Math.PI * (3 / 4);
 }
 
 const animate = function () {
