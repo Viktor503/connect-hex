@@ -34,7 +34,29 @@ function writePlayerListGui() {
     players_info.appendChild(player2);
 }
 
-function init() {
+async function getModelResponse(model) {
+    const dataToSend = {
+        playerOrder: player_order,
+        hexMode: hex_mode,
+        gameState: game.gameBoard.getBoardValues(),
+    };
+
+    // Make API call to your backend endpoint
+    const response = await fetch(`/models/${model}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(dataToSend),
+    });
+
+    // Parse the JSON response
+    const result = await response.json();
+    return `${result[0]},${result[1]}`;
+}
+
+async function init() {
     //set up scene and camera
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(
@@ -112,13 +134,27 @@ function init() {
         }
     });
 
+    if (!online_mode && ai_mode) {
+        if (player_order == 2) {
+            const ai_field_name = await getModelResponse(ai_model);
+            game.markField(ai_field_name, hex_mode);
+        }
+    }
+
     //set up click event
-    renderer.domElement.addEventListener("click", (event) => {
+    renderer.domElement.addEventListener("click", async (event) => {
         if (!selectedField) return;
 
         if (online_mode) {
             game.markField(selectedField.name, hex_mode, false, false);
             gameMove(selectedField.name);
+        } else if (ai_mode) {
+            if (player_order == game.currentPlayer) {
+                await game.markField(selectedField.name, hex_mode);
+                const ai_field_name = await getModelResponse(ai_model);
+                console.log(ai_field_name);
+                game.markField(ai_field_name, hex_mode);
+            }
         } else {
             game.markField(selectedField.name, hex_mode);
             writePlayerListGui();
