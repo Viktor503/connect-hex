@@ -9,8 +9,8 @@
     <body>
         <div>
             <button id="btn_local">Local coop</button>
-            <button id="btn_online_play" onclick="">Online play</button>
-            <button id="btn" onclick="">Local against AI</button>
+            <button id="btn_online_play">Online play</button>
+            <button id="btn_ai">Local against AI</button>
             <br />
             <br />
             <br />
@@ -32,7 +32,7 @@
                 /><br />
                 <label for="hex_mode">Play basic hex:</label>
                 <input type="checkbox" id="hex_mode" name="hex_mode"></input><br/>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Play" />
             </form>
             <form
                 name="popup_online"
@@ -73,6 +73,40 @@
                 /><br />
                 <input type="button" id="join_game" value="Join" onclick="joinGame()"/><br />
             </form>
+            <form
+                action="/game/ai"
+                name="popup_ai"
+                style="display: none"
+                method="POST"
+            >
+                <label for="board_size_ai">Board size:</label>
+                <input
+                    type="number"
+                    id="board_size_ai"
+                    name="board_size_ai"
+                    value="2"
+                    max="15"
+                    min="1"
+                /><br />
+                <label for="hex_mode_ai">Play basic hex:</label>
+                <input type="checkbox" id="hex_mode_ai" name="hex_mode_ai"></input><br/>
+
+
+                <p>Who should go first?</p>
+                <input type="radio" id="me_first" name="player_order_ai" value="me" checked="checked" />
+                <label for="me_first">I will go first!</label><br>
+                <input type="radio" id="opponent_first" name="player_order_ai" value="opponent">
+                <label for="opponent_first">The AI will go first!</label><br>
+                <input type="radio" id="random" name="player_order_ai" value="random">
+                <label for="random">Random</label>
+                <br>
+
+                <p>Which model would you like to challenge?</p>
+                <input type="radio" id="random_model" name="model" value="random" checked="checked" />
+                <label for="random_model">Random model</label><br>
+                <br>
+                <input type="submit" id="play_ai" value="Play"/><br />
+            </form>
             <div id="waiting_area">
             </div>
         </div>
@@ -83,6 +117,7 @@
 <script>
     const btn_local = document.getElementById("btn_local");
     const btn_online_play = document.getElementById("btn_online_play");
+    const btn_ai = document.getElementById("btn_ai");
     btn_local.addEventListener("click", () => {
         if (document.forms["popup_local"].style.display === "block") {
             document.forms["popup_local"].style.display = "none";
@@ -95,6 +130,13 @@
             document.forms["popup_online"].style.display = "none";
         } else {
             document.forms["popup_online"].style.display = "block";
+        }
+    });
+    btn_ai.addEventListener("click", () => {
+        if (document.forms["popup_ai"].style.display === "block") {
+            document.forms["popup_ai"].style.display = "none";
+        } else {
+            document.forms["popup_ai"].style.display = "block";
         }
     });
 
