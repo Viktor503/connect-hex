@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/css/gamewindow.css" type="text/css" />
+        <style>
+            #game-info {
+                position: absolute;
+                top: 0px;
+                left: 10px;
+                width: 50%;
+                text-align: left;
+                z-index: 100;
+                display: block;
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "/threejs/build/three.module.js",
+                    "three/addons/": "/threejs/addons/"
+                }
+            }
+        </script>
+        <div id="game-info">
+            <p id="players_info">Players:<br />Player1 (you)<br />Player2</p>
+        </div>
+        <script>
+            const boardSize = "<%=board_size%>";
+            const hex_mode = "<%=hex_mode%>";
+            const player_order = "<%=player_order%>";
+            const online_mode = false;
+            const ai_mode = true;
+            const ai_model = "<%=ai_model%>";
+        </script>
+        <script type="module" src="/threejs/GameBoard_THREE.js"></script>
+    </body>
+</html>
