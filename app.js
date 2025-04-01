@@ -1,6 +1,7 @@
 const express = require("express");
 const indexrouter = require("./routes/index");
 const gamerouter = require("./routes/game");
+const modelrouter = require("./routes/models.js");
 const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
 const http = require("http");
@@ -27,8 +28,10 @@ app.use(
     },
     gamerouter,
 );
+app.use("/models", modelrouter);
 app.use("/css", express.static("./public/css"));
 app.use("/threejs", express.static("./public/threejs"));
+app.use("/ai_models", express.static("./public/ai_models"));
 app.use("/textures", express.static("./public/textures"));
 app.use("/models", express.static("./public/models"));
 
