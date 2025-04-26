@@ -31,14 +31,10 @@
                     min="1"
                 /><br />
                 <label for="hex_mode">Play basic hex:</label>
-                <input type="checkbox" id="hex_mode" name="hex_mode"></input><br/>
+                <input type="checkbox" id="hex_mode" name="hex_mode" /><br />
                 <input type="submit" value="Play" />
             </form>
-            <form
-                name="popup_online"
-                style="display: none"
-                method="POST"
-            >
+            <form name="popup_online" style="display: none" method="POST">
                 <label for="board_size_online">Board size:</label>
                 <input
                     type="number"
@@ -49,29 +45,55 @@
                     min="1"
                 /><br />
                 <label for="hex_mode_online">Play basic hex:</label>
-                <input type="checkbox" id="hex_mode_online" name="hex_mode_online"></input><br/>
-
+                <input
+                    type="checkbox"
+                    id="hex_mode_online"
+                    name="hex_mode_online"
+                /><br />
 
                 <p>Who should go first?</p>
-                <input type="radio" id="me_first" name="player_order" value="me" checked="checked" />
-                <label for="me_first">I will go first!</label><br>
-                <input type="radio" id="opponent_first" name="player_order" value="opponent">
-                <label for="opponent_first">My opponent will go first!</label><br>
-                <input type="radio" id="random" name="player_order" value="random">
+                <input
+                    type="radio"
+                    id="me_first"
+                    name="player_order"
+                    value="me"
+                    checked="checked"
+                />
+                <label for="me_first">I will go first!</label><br />
+                <input
+                    type="radio"
+                    id="opponent_first"
+                    name="player_order"
+                    value="opponent"
+                />
+                <label for="opponent_first">My opponent will go first!</label
+                ><br />
+                <input
+                    type="radio"
+                    id="random"
+                    name="player_order"
+                    value="random"
+                />
                 <label for="random">Random</label>
-                <br><br>
-
+                <br /><br />
 
                 <label for="create_game">Create a new game room:</label>
-                <input type="button" id="create_game" value="Create" onclick="createGame()"/><br />
-                <p>OR</p><br />
-                <label for="game_id">Join a game room:</label>
                 <input
-                    type="text"
-                    id="game_id"
-                    name="game_id"
+                    type="button"
+                    id="create_game"
+                    value="Create"
+                    onclick="createGame()"
                 /><br />
-                <input type="button" id="join_game" value="Join" onclick="joinGame()"/><br />
+                <p>OR</p>
+                <br />
+                <label for="game_id">Join a game room:</label>
+                <input type="text" id="game_id" name="game_id" /><br />
+                <input
+                    type="button"
+                    id="join_game"
+                    value="Join"
+                    onclick="joinGame()"
+                /><br />
             </form>
             <form
                 action="/game/ai"
@@ -89,26 +111,66 @@
                     min="1"
                 /><br />
                 <label for="hex_mode_ai">Play basic hex:</label>
-                <input type="checkbox" id="hex_mode_ai" name="hex_mode_ai"></input><br/>
-
+                <input
+                    type="checkbox"
+                    id="hex_mode_ai"
+                    name="hex_mode_ai"
+                /><br />
 
                 <p>Who should go first?</p>
-                <input type="radio" id="me_first" name="player_order_ai" value="me" checked="checked" />
-                <label for="me_first">I will go first!</label><br>
-                <input type="radio" id="opponent_first" name="player_order_ai" value="opponent">
-                <label for="opponent_first">The AI will go first!</label><br>
-                <input type="radio" id="random" name="player_order_ai" value="random">
+                <input
+                    type="radio"
+                    id="me_first"
+                    name="player_order_ai"
+                    value="me"
+                    checked="checked"
+                />
+                <label for="me_first">I will go first!</label><br />
+                <input
+                    type="radio"
+                    id="opponent_first"
+                    name="player_order_ai"
+                    value="opponent"
+                />
+                <label for="opponent_first">The AI will go first!</label><br />
+                <input
+                    type="radio"
+                    id="random"
+                    name="player_order_ai"
+                    value="random"
+                />
                 <label for="random">Random</label>
-                <br>
+                <br />
 
                 <p>Which model would you like to challenge?</p>
-                <input type="radio" id="random_model" name="model" value="random" checked="checked" />
-                <label for="random_model">Random model</label><br>
-                <br>
-                <input type="submit" id="play_ai" value="Play"/><br />
+                <input
+                    type="radio"
+                    id="random_model"
+                    name="model"
+                    value="random"
+                    checked="checked"
+                />
+                <label for="random_model">Random model</label><br />
+                <input
+                    type="radio"
+                    id="greedy_model"
+                    name="model"
+                    value="greedy"
+                />
+                <label for="greedy_model">Greedy model</label><br />
+                <input
+                    type="radio"
+                    id="stohastic_greedy_model"
+                    name="model"
+                    value="stohastic_greedy"
+                />
+                <label for="stohastic_greedy_model"
+                    >Stohastic greedy model</label
+                ><br />
+                <br />
+                <input type="submit" id="play_ai" value="Play" /><br />
             </form>
-            <div id="waiting_area">
-            </div>
+            <div id="waiting_area"></div>
         </div>
     </body>
 </html>
@@ -139,5 +201,4 @@
             document.forms["popup_ai"].style.display = "block";
         }
     });
-
 </script>
