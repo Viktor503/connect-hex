@@ -75,9 +75,6 @@ class Game {
         console.log("End edge found:", endEdgeFound);
         if (startEdgeFound && endEdgeFound) {
             this.winner = player;
-            // await this.gameBoard.flashFields.then(() => {
-            //     console.log("Player " + player + " wins!");
-            // });
             await this.gameBoard
                 .flashFields(
                     player_fields,
@@ -106,8 +103,6 @@ class Game {
             let playerVisitedFields = Array.from(playerVisitedSetStrings).map(
                 (field) => field.split(",").map((x) => parseInt(x)),
             );
-            console.log("Visited by player strings:", playerVisitedSetStrings);
-            console.log("Visited by player fields:", playerVisitedFields);
             this.checkIfFieldsAreWinning(playerVisitedFields, player);
             playerFields = playerFields.filter(
                 (field) =>

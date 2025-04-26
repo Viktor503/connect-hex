@@ -3,13 +3,6 @@ const { greedyModel } = require("./greedy_model");
 
 class greedyModelStochastic extends greedyModel {
     bestFieldFromDistanceTable(distanceTable, gameState, playerFields) {
-        let [hasStartField, hasEndField] = this.edgeFieldsInPlayerFields(
-            playerFields,
-            gameState,
-        );
-
-        console.log(hasStartField, hasEndField);
-
         let min_dist = gameState.length ** 2;
         let min_field = [];
 
@@ -46,7 +39,6 @@ class greedyModelStochastic extends greedyModel {
         } else {
             best_field = Object.keys(picked_dest)[0];
         }
-        console.log("best field", best_field);
         return this.fieldName_to_listCoord(best_field);
     }
 }

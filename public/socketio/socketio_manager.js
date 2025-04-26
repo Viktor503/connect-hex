@@ -57,11 +57,8 @@ const initialize = (server) => {
                     data.player,
                     gameRooms[data.roomId].gameState,
                 );
-                console.log(wincheckResponse);
                 const winner = wincheckResponse["winner"];
                 const fields = wincheckResponse["fields"];
-                console.log("Winner:", winner);
-                console.log("Fields:", fields);
                 if (winner) {
                     io.to(data.roomId).emit("gameOver", {
                         winner: data.player,

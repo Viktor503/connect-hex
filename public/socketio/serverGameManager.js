@@ -16,7 +16,6 @@ function getPlayerFields(player, board) {
 }
 
 function validField(x, y, board_size) {
-    console.log("board_size", board_size);
     return x >= 0 && x < board_size && y >= 0 && y < board_size;
 }
 function returnNeighbours(i, j) {
@@ -85,9 +84,9 @@ function checkIfFieldsAreWinning(player_fields, player, board) {
 function winCheck(player, board) {
     let playerFields = getPlayerFields(player, board);
 
-    console.log("Player fields:", playerFields);
-    console.log("Player:", player);
-    console.log("Board:", board);
+    // console.log("Player fields:", playerFields);
+    // console.log("Player:", player);
+    // console.log("Board:", board);
     while (playerFields.length > 0) {
         let playerVisitedSetStrings = bfsToGetReachableFields(
             playerFields,
@@ -98,8 +97,8 @@ function winCheck(player, board) {
         let playerVisitedFields = Array.from(playerVisitedSetStrings).map(
             (field) => field.split(",").map((x) => parseInt(x)),
         );
-        console.log("Visited by player strings:", playerVisitedSetStrings);
-        console.log("Visited by player fields:", playerVisitedFields);
+        // console.log("Visited by player strings:", playerVisitedSetStrings);
+        // console.log("Visited by player fields:", playerVisitedFields);
         if (checkIfFieldsAreWinning(playerVisitedFields, player, board)) {
             return { winner: true, fields: playerVisitedFields };
         }

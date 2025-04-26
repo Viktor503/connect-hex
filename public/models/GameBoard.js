@@ -146,8 +146,6 @@ class GameBoard {
         return new Promise((resolve) => {
             setTimeout(async () => {
                 for (let index = 0; index < 3; index++) {
-                    console.log("index", index);
-
                     fieldsPositions.forEach((field) => {
                         this.board[field[0]][field[1]].material.color.setHex(
                             default_color,

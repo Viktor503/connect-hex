@@ -153,7 +153,7 @@ async function init() {
                 await game.markField(selectedField.name, hex_mode);
                 if (game.winner == null && game.currentPlayer != player_order) {
                     const ai_field_name = await getModelResponse(ai_model);
-                    console.log(ai_field_name);
+                    console.log("Ai played: ", ai_field_name);
                     game.markField(ai_field_name, hex_mode);
                 }
             }

@@ -9,7 +9,6 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/ai", async (req, res) => {
-    console.log(req.body.model);
     let player_order;
     if (req.body.player_order_ai == "me") {
         player_order = 1;
@@ -34,7 +33,6 @@ router.get("/:id", async (req, res) => {
     const roomId = req.params.id;
     const roomInfo = req.socketManager.getRoomInfo(roomId);
     if (roomInfo) {
-        console.log(roomInfo);
         res.render("game_online", roomInfo["gameConfig"]);
     } else {
         res.send("404");

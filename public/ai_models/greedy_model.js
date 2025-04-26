@@ -169,10 +169,6 @@ class greedyModel extends BaseModel {
                 let [x, y] = neighbour_coords;
                 let neighbour = this.listCoord_to_fieldName(neighbour_coords);
 
-                if (field == "3,0" && neighbour == "3,0") {
-                    console.log();
-                }
-
                 if (
                     this.validField(x, y, gameState) &&
                     gameState[x][y] != (this.playerOrder == 1 ? 1 : -1)
@@ -206,7 +202,6 @@ class greedyModel extends BaseModel {
                 delete distanceTable[field];
             }
         }
-        console.log(distanceTable);
         return distanceTable;
     }
 
@@ -247,13 +242,6 @@ class greedyModel extends BaseModel {
     }
 
     bestFieldFromDistanceTable(distanceTable, gameState, playerFields) {
-        let [hasStartField, hasEndField] = this.edgeFieldsInPlayerFields(
-            playerFields,
-            gameState,
-        );
-
-        console.log(hasStartField, hasEndField);
-
         let min_dist = gameState.length ** 2;
         let min_field = {};
 
@@ -281,7 +269,6 @@ class greedyModel extends BaseModel {
         } else {
             best_field = Object.keys(min_field)[0];
         }
-        console.log("best field", best_field);
         return this.fieldName_to_listCoord(best_field);
     }
 }
