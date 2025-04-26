@@ -5,15 +5,20 @@ import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
 function writePlayerListGui() {
-    players_info = document.getElementById("players_info");
+    let players_info = document.getElementById("players_info");
     players_info.innerHTML = "";
 
     // Create the bold red span
     const player1 = document.createElement("span");
-    player1.textContent = `player1`;
-
     const player2 = document.createElement("span");
-    player2.textContent = `player2`;
+
+    if (ai_mode) {
+        player1.textContent = `player1 ${player_order == 1 ? "(you)" : "(ai)"}`;
+        player2.textContent = `player2 ${player_order == 2 ? "(you)" : "(ai)"}`;
+    } else {
+        player1.textContent = `player1`;
+        player2.textContent = `player2`;
+    }
 
     if (game.currentPlayer == 1) player1.style.fontWeight = "bold"; // Make it bold
     if (game.currentPlayer == 2) player2.style.fontWeight = "bold"; // Make it bold
@@ -29,7 +34,29 @@ function writePlayerListGui() {
     players_info.appendChild(player2);
 }
 
-function init() {
+async function getModelResponse(model) {
+    const dataToSend = {
+        playerOrder: player_order,
+        hexMode: hex_mode,
+        gameState: game.gameBoard.getBoardValues(),
+    };
+
+    // Make API call to your backend endpoint
+    const response = await fetch(`/models/${model}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(dataToSend),
+    });
+
+    // Parse the JSON response
+    const result = await response.json();
+    return `${result[0]},${result[1]}`;
+}
+
+async function init() {
     //set up scene and camera
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(
@@ -42,6 +69,18 @@ function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    //set up controls
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.maxDistance = 80;
+    controls.minDistance = 7;
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.minAzimuthAngle = -Math.PI / 4;
+    controls.maxAzimuthAngle = Math.PI / 4;
+    controls.minPolarAngle = Math.PI / 4;
+    controls.maxPolarAngle = Math.PI * (3 / 4);
 
     //set up game board
     let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
@@ -65,7 +104,7 @@ function init() {
     window.game = game;
     gameBoard.addToScene(scene);
     if (!online_mode) {
-        writePlayerListGui({});
+        writePlayerListGui();
     }
     //set up change color on hover
     let raycaster = new THREE.Raycaster();
@@ -95,30 +134,34 @@ function init() {
         }
     });
 
+    if (!online_mode && ai_mode) {
+        if (player_order == 2) {
+            const ai_field_name = await getModelResponse(ai_model);
+            game.markField(ai_field_name, hex_mode);
+        }
+    }
+
     //set up click event
-    renderer.domElement.addEventListener("click", (event) => {
+    renderer.domElement.addEventListener("click", async (event) => {
         if (!selectedField) return;
 
         if (online_mode) {
             game.markField(selectedField.name, hex_mode, false, false);
             gameMove(selectedField.name);
+        } else if (ai_mode) {
+            if (player_order == game.currentPlayer) {
+                await game.markField(selectedField.name, hex_mode);
+                if (game.winner == null && game.currentPlayer != player_order) {
+                    const ai_field_name = await getModelResponse(ai_model);
+                    console.log(ai_field_name);
+                    game.markField(ai_field_name, hex_mode);
+                }
+            }
         } else {
             game.markField(selectedField.name, hex_mode);
             writePlayerListGui();
         }
     });
-
-    //set up controls
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.maxDistance = 80;
-    controls.minDistance = 7;
-    controls.enablePan = false;
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.minAzimuthAngle = -Math.PI / 4;
-    controls.maxAzimuthAngle = Math.PI / 4;
-    controls.minPolarAngle = Math.PI / 4;
-    controls.maxPolarAngle = Math.PI * (3 / 4);
 }
 
 const animate = function () {
