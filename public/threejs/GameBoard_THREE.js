@@ -5,7 +5,7 @@ import { GameBoard } from "../models/GameBoard.js";
 let scene, renderer, camera, thing, controls;
 
 function writePlayerListGui() {
-    players_info = document.getElementById("players_info");
+    let players_info = document.getElementById("players_info");
     players_info.innerHTML = "";
 
     // Create the bold red span
@@ -104,7 +104,7 @@ async function init() {
     window.game = game;
     gameBoard.addToScene(scene);
     if (!online_mode) {
-        writePlayerListGui({});
+        writePlayerListGui();
     }
     //set up change color on hover
     let raycaster = new THREE.Raycaster();
@@ -151,9 +151,11 @@ async function init() {
         } else if (ai_mode) {
             if (player_order == game.currentPlayer) {
                 await game.markField(selectedField.name, hex_mode);
-                const ai_field_name = await getModelResponse(ai_model);
-                console.log(ai_field_name);
-                game.markField(ai_field_name, hex_mode);
+                if (game.winner == null && game.currentPlayer != player_order) {
+                    const ai_field_name = await getModelResponse(ai_model);
+                    console.log(ai_field_name);
+                    game.markField(ai_field_name, hex_mode);
+                }
             }
         } else {
             game.markField(selectedField.name, hex_mode);
