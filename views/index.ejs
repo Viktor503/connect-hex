@@ -7,14 +7,21 @@
         <title>Index</title>
     </head>
     <body>
-        <div>
-            <button id="btn_local">Local coop</button>
-            <button id="btn_online_play">Online play</button>
-            <button id="btn_ai">Local against AI</button>
-            <br />
-            <br />
-            <br />
-            <br />
+        <div id="menus">
+            <h1 id="title">
+                <span id="title_start">CONNECT</span>-<span id="title_end"
+                    >HEX</span
+                >
+            </h1>
+            <div id="menu_buttons">
+                <button id="btn_local" class="custom_button">Local coop</button>
+                <button id="btn_online_play" class="custom_button">
+                    Online play
+                </button>
+                <button id="btn_ai" class="custom_button">
+                    Local against AI
+                </button>
+            </div>
             <form
                 action="/game"
                 name="popup_local"

@@ -5,3 +5,16 @@
     margin-right: auto;
     text-align: center;
 }
+#title {
+    font-size: 8vh;
+    color: white;
+    text-align: center;
+    margin-bottom: 10vh;
+}
+#title_start {
+    text-shadow: 3px 3px 5px #ff0000; /* Added shadow for better visibility */
+}
+#title_end {
+    text-shadow: -3px 3px 5px #0000ff; /* Added shadow for better visibility */
+}
+
