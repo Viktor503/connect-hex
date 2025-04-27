@@ -236,25 +236,25 @@
     const btn_local = document.getElementById("btn_local");
     const btn_online_play = document.getElementById("btn_online_play");
     const btn_ai = document.getElementById("btn_ai");
+    const btn_back = document.querySelectorAll(".back_button");
     btn_local.addEventListener("click", () => {
-        if (document.forms["popup_local"].style.display === "block") {
-            document.forms["popup_local"].style.display = "none";
-        } else {
-            document.forms["popup_local"].style.display = "block";
-        }
+        document.getElementById("menu_buttons").style.display = "none";
+        document.forms["popup_local"].style.display = "block";
     });
     btn_online_play.addEventListener("click", () => {
-        if (document.forms["popup_online"].style.display === "block") {
-            document.forms["popup_online"].style.display = "none";
-        } else {
-            document.forms["popup_online"].style.display = "block";
-        }
+        document.getElementById("menu_buttons").style.display = "none";
+        document.forms["popup_online"].style.display = "block";
     });
     btn_ai.addEventListener("click", () => {
-        if (document.forms["popup_ai"].style.display === "block") {
+        document.getElementById("menu_buttons").style.display = "none";
+        document.forms["popup_ai"].style.display = "block";
+    });
+    btn_back.forEach((button) => {
+        button.addEventListener("click", () => {
+            document.forms["popup_local"].style.display = "none";
+            document.forms["popup_online"].style.display = "none";
             document.forms["popup_ai"].style.display = "none";
-        } else {
-            document.forms["popup_ai"].style.display = "block";
-        }
+            document.getElementById("menu_buttons").style.display = "flex";
+        });
     });
 </script>
