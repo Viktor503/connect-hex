@@ -13,6 +13,7 @@
                     >HEX</span
                 >
             </h1>
+            <p style="color: red" id="error_message"><%=error%></p>
             <div id="menu_buttons">
                 <button id="btn_local" class="custom_button">Local coop</button>
                 <button id="btn_online_play" class="custom_button">
@@ -237,17 +238,22 @@
     const btn_online_play = document.getElementById("btn_online_play");
     const btn_ai = document.getElementById("btn_ai");
     const btn_back = document.querySelectorAll(".back_button");
+    const error_message = document.getElementById("error_message");
+
     btn_local.addEventListener("click", () => {
         document.getElementById("menu_buttons").style.display = "none";
         document.forms["popup_local"].style.display = "block";
+        error_message.innerHTML = null;
     });
     btn_online_play.addEventListener("click", () => {
         document.getElementById("menu_buttons").style.display = "none";
         document.forms["popup_online"].style.display = "block";
+        error_message.innerHTML = null;
     });
     btn_ai.addEventListener("click", () => {
         document.getElementById("menu_buttons").style.display = "none";
         document.forms["popup_ai"].style.display = "block";
+        error_message.innerHTML = null;
     });
     btn_back.forEach((button) => {
         button.addEventListener("click", () => {
