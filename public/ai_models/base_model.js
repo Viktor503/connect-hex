@@ -18,7 +18,7 @@ class BaseModel {
 
     //Returns a random element of the
     randomColumn(possible_collumns) {
-        return possible_collumns[randomInt(possible_collumns.length)];
+        return possible_collumns[this.randomInt(possible_collumns.length)];
     }
 
     //Gets a column and returns the top mos coordinate
