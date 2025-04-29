@@ -4,6 +4,7 @@ const gamerouter = require("./routes/game");
 const modelrouter = require("./routes/models.js");
 const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
+const cookieParser = require("cookie-parser");
 const http = require("http");
 
 const app = express();
@@ -18,6 +19,7 @@ socketManager.initialize(server);
 const PORT = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use("/", indexrouter);
 app.use(
