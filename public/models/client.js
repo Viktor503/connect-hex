@@ -41,13 +41,36 @@ function writePlayerListGui(players) {
 }
 
 function createGame() {
-    let board_size = document.getElementById("board_size_online").value;
+    let board_size = +document.getElementById("board_size_online").value;
     let hex_mode = document.getElementById("hex_mode_online").checked;
     let player_order;
 
     document.getElementsByName("player_order").forEach((element) => {
         if (element.checked) player_order = element.value;
     });
+
+    console.log(board_size, hex_mode, player_order);
+
+    if (isNaN(board_size) || board_size <= 1 || board_size > 15) {
+        document.cookie =
+            "error=Invalid board size. Please choose a number between 1 and 15.";
+        window.location.href = "/";
+        return;
+    }
+    if (
+        player_order != "me" &&
+        player_order != "opponent" &&
+        player_order != "random"
+    ) {
+        document.cookie =
+            "error=Invalid player order. Please choose 'me', 'opponent' or 'random'.";
+        window.location.href = "/";
+    }
+    if (hex_mode != true && hex_mode != false) {
+        document.cookie =
+            "error=Invalid hex mode. Please choose 'true' or 'false'.";
+        window.location.href = "/";
+    }
 
     let gameConfig = {
         board_size: board_size,
