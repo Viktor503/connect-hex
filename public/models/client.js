@@ -104,8 +104,7 @@ function gameMove(move) {
 socket.on("joinRoom", (data) => {
     console.log(`Joined room ${data["roomId"]}`);
     document.getElementById("waiting-message-text").innerHTML =
-        "Waiting for player 2";
-
+        `Waiting for player 2!! <br/> Send them this link or the game code <b>${data["roomId"]}</b>`;
     // game.currentPlayer = data.order;
 });
 
