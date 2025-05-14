@@ -13,8 +13,8 @@ function writePlayerListGui() {
     const player2 = document.createElement("span");
 
     if (ai_mode) {
-        player1.textContent = `player1 ${player_order == 1 ? "(you)" : "(ai)"}`;
-        player2.textContent = `player2 ${player_order == 2 ? "(you)" : "(ai)"}`;
+        player1.textContent = `player1 ${player_order == 1 ? "(you)" : "(computer)"}`;
+        player2.textContent = `player2 ${player_order == 2 ? "(you)" : "(computer)"}`;
     } else {
         player1.textContent = `player1`;
         player2.textContent = `player2`;
