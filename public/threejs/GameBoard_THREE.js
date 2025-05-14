@@ -137,7 +137,7 @@ async function init() {
     if (!online_mode && ai_mode) {
         if (player_order == 2) {
             const ai_field_name = await getModelResponse(ai_model);
-            game.markField(ai_field_name, hex_mode);
+            game.markField(ai_field_name, hex_mode, true, true, false);
         }
     }
 
@@ -154,7 +154,7 @@ async function init() {
                 if (game.winner == null && game.currentPlayer != player_order) {
                     const ai_field_name = await getModelResponse(ai_model);
                     console.log("Ai played: ", ai_field_name);
-                    game.markField(ai_field_name, hex_mode);
+                    game.markField(ai_field_name, hex_mode, true, true, false);
                 }
             }
         } else {

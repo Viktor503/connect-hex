@@ -150,13 +150,21 @@ class Game {
         this.gameBoard.loadgameState(gameState);
     }
 
-    markField(name, hex_mode, switchPlayer = true, winCheck = true) {
+    markField(
+        name,
+        hex_mode,
+        switchPlayer = true,
+        winCheck = true,
+        paint_move = true,
+    ) {
         if (this.winner) return;
         if (this.gameBoard.markField(name, this.currentPlayer, hex_mode)) {
             if (winCheck) this.winCheck();
             if (switchPlayer) this.switchPlayer();
         }
-        this.paintMove(name, true, hex_mode);
+
+        if (paint_move)
+            this.paintMove(name, true, hex_mode, this.currentPlayer);
     }
 }
 
