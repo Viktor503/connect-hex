@@ -185,24 +185,3 @@ window.addEventListener("keydown", (e) => {
 
 init();
 animate();
-
-// let texture = new THREE.TextureLoader().load("../textures/wood.jpg");
-
-//     var arcShape = new THREE.Shape();
-//     arcShape.absarc(0, 0, 1, 0, Math.PI * 2, 0, false);
-
-//     var holePath = new THREE.Path();
-//     holePath.absarc(0, 0, 0.7, 0, Math.PI * 2, true);
-//     arcShape.holes.push(holePath);
-
-//     var geometry = new THREE.ExtrudeGeometry(arcShape, {
-//         curveSegments: 3,
-//         bevelEnabled: false,
-//     });
-//     var material = new THREE.MeshBasicMaterial({
-//         color: 0x990066,
-//         map: texture,
-//     });
-
-//     thing = new THREE.Mesh(geometry, material);
-//     scene.add(thing);

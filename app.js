@@ -9,9 +9,6 @@ const http = require("http");
 
 const app = express();
 const server = http.createServer(app);
-//const io = socketIo(server);
-
-//const rooms = {};
 
 const socketManager = require("./public/socketio/socketio_manager.js");
 socketManager.initialize(server);

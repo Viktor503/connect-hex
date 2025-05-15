@@ -14,15 +14,14 @@ function writePlayerListGui(players) {
         ([key, value]) => value === 2,
     );
 
-    // Create the bold red span
     const player1 = document.createElement("span");
     player1.textContent = `player1${socket.id == playerOne[0] ? " (you)" : ""}`;
 
     const player2 = document.createElement("span");
     player2.textContent = `player2${socket.id == playerTwo[0] ? " (you)" : ""}`;
 
-    if (currentPlayer == 1) player1.style.fontWeight = "bold"; // Make it bold
-    if (currentPlayer == 2) player2.style.fontWeight = "bold"; // Make it bold
+    if (currentPlayer == 1) player1.style.fontWeight = "bold";
+    if (currentPlayer == 2) player2.style.fontWeight = "bold";
 
     if (playerOne[1] == 1) {
         player1.style.color = "red";
@@ -34,7 +33,6 @@ function writePlayerListGui(players) {
 
     const br = document.createElement("br");
 
-    // Append both spans to the paragraph
     players_info.appendChild(player1);
     players_info.appendChild(br);
     players_info.appendChild(player2);
@@ -48,8 +46,6 @@ function createGame() {
     document.getElementsByName("player_order").forEach((element) => {
         if (element.checked) player_order = element.value;
     });
-
-    console.log(board_size, hex_mode, player_order);
 
     if (isNaN(board_size) || board_size <= 1 || board_size > 15) {
         document.cookie =
