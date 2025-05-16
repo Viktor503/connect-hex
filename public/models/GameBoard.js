@@ -106,11 +106,11 @@ class GameBoard {
 
     getDiagonalElements(name) {
         let [x, y] = this.getCoordinatesFromName(name);
-        let diagonal_value = x - y;
+        let diagonal_value = y - x;
         let diagonal = [];
         for (let i = 0; i < this.size; i++) {
             for (let j = 0; j < this.size; j++) {
-                if (i - j == diagonal_value && this.board[i][j].value == 0) {
+                if (j - i == diagonal_value && this.board[i][j].value == 0) {
                     diagonal.push(this.board[i][j]);
                 }
             }
