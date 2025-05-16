@@ -20,8 +20,8 @@ class hexagonField {
 
     createHexagon() {
         let geometry = new THREE.CylinderGeometry(
-            (this.size / 2) * (2 / Math.sqrt(3)),
-            (this.size / 2) * (2 / Math.sqrt(3)),
+            this.size / Math.sqrt(3),
+            this.size / Math.sqrt(3),
             1,
             6,
             3,
