@@ -1,4 +1,4 @@
-import { Hexagon_field } from "./Hexagon.js";
+import { hexagonField } from "./Hexagon.js";
 class GameBoard {
     constructor(boardsize, hexsize, material) {
         this.size = boardsize;
@@ -42,7 +42,7 @@ class GameBoard {
                 }
 
                 //print field_pos as string
-                this.board[i][j] = new Hexagon_field(
+                this.board[i][j] = new hexagonField(
                     0,
                     hexsize,
                     material,
