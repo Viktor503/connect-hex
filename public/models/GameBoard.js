@@ -10,14 +10,14 @@ class GameBoard {
         this.board = new Array(boardsize);
         for (let i = 0; i < boardsize; i++) {
             if (i != 0) {
-                first_field_pos.x -= (7 / 8) * hexsize;
+                first_field_pos.x -= (Math.sqrt(3) / 2) * hexsize;
                 first_field_pos.y -= (1 / 2) * hexsize;
                 first_field_pos.z = 0;
             }
             this.board[i] = new Array(boardsize);
             for (let j = 0; j < boardsize; j++) {
                 let field_pos = {
-                    x: first_field_pos.x + (7 / 8) * hexsize * j,
+                    x: first_field_pos.x + (Math.sqrt(3) / 2) * hexsize * j,
                     y: first_field_pos.y - (1 / 2) * hexsize * j,
                     z: first_field_pos.z,
                 };
