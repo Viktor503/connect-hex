@@ -51,7 +51,7 @@
         <script type="module" id="game-script-loader">
             // This function will be called when it's time to start the game
             window.startGame = function () {
-                import("/threejs/GameBoard_THREE.js").then((module) => {
+                import("/threejs/gameManager.js").then((module) => {
                     console.log("Game module loaded");
                     // Any initialization can happen here
                 });
