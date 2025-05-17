@@ -1,5 +1,5 @@
 const { Queue } = require("../models/Queue");
-const { BaseModel } = require("./base_model");
+const { BaseModel } = require("./baseModel");
 
 class greedyModel extends BaseModel {
     predict(gameState) {

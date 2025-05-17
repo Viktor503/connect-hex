@@ -89,5 +89,30 @@ class BaseModel {
         }
         return [startfield, endfield];
     }
+
+    returnNeighbours(i, j) {
+        let neighbours = [
+            [i - 1, j - 1],
+            [i - 1, j],
+            [i, j - 1],
+            [i, j + 1],
+            [i + 1, j],
+            [i + 1, j + 1],
+        ];
+        return neighbours;
+    }
+
+    returnvalidNeighbours(i, j, gameState) {
+        let neighbours = this.returnNeighbours(i, j);
+        let valid_neighbours = [];
+        for (let k = 0; k < neighbours.length; k++) {
+            if (
+                this.validField(neighbours[k][0], neighbours[k][1], gameState)
+            ) {
+                valid_neighbours.push(neighbours[k]);
+            }
+        }
+        return valid_neighbours;
+    }
 }
 module.exports = { BaseModel };
