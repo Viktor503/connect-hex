@@ -41,11 +41,12 @@ router.post("/ai", async (req, res) => {
     if (
         req.body.model != "random" &&
         req.body.model != "greedy" &&
-        req.body.model != "stohastic_greedy"
+        req.body.model != "stohastic_greedy" &&
+        req.body.model != "greedy_erdos-selfridge"
     ) {
         res.cookie(
             "error",
-            "Invalid model. Please choose 'random', 'greedy' or 'stohastic_greedy'.",
+            "Invalid model. Please choose 'random', 'greedy', 'stohastic_greedy' or 'greedy_erdos-selfridge'.",
         );
         return res.redirect("/");
     }
