@@ -13,18 +13,6 @@ class greedyModel extends BaseModel {
         );
     }
 
-    returnNeighbours(i, j) {
-        let neighbours = [
-            [i - 1, j - 1],
-            [i - 1, j],
-            [i, j - 1],
-            [i, j + 1],
-            [i + 1, j],
-            [i + 1, j + 1],
-        ];
-        return neighbours;
-    }
-
     fieldsUnderfield(x, y, gameState) {
         let fields = [];
         let i = 1;
