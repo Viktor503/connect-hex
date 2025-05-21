@@ -8,15 +8,30 @@ class greedyModelErdosSelfridge extends BaseModel {
             console.log("x: " + x + " y: " + y);
             return [x, y];
         } else {
-            let usable_collumns = [];
+            let usable_fields = [];
             for (let i = 0; i < gameState.length * 2 - 1; i++) {
-                const coords = this.columnToCoordinate(i + 1, gameState);
-                if (gameState[coords[0]][coords[1]] === 0) {
-                    usable_collumns.push(i + 1);
+                let coords = this.columnToCoordinate(i + 1, gameState);
+                while (gameState[coords[0]][coords[1]] == 0) {
+                    if (
+                        coords[0] + 1 >= gameState.length ||
+                        coords[1] + 1 >= gameState.length ||
+                        gameState[coords[0] + 1][coords[1] + 1] != 0
+                    ) {
+                        break;
+                    }
+                    coords[0] += 1;
+                    coords[1] += 1;
                 }
+
+                usable_fields.push(
+                    this.listCoord_to_fieldName([coords[0], coords[1]]),
+                );
             }
-            let x = this.randomColumn(usable_collumns);
-            return this.columnToCoordinate(x, gameState);
+            let [x, y] = this.fieldName_to_listCoord(
+                this.getmaxField(gameState, 10000, usable_fields),
+            );
+            console.log("x: " + x + " y: " + y);
+            return [x, y];
         }
     }
 
@@ -66,10 +81,10 @@ class greedyModelErdosSelfridge extends BaseModel {
 
             if (path.length >= minPathLength) {
                 if (isGoal(cell)) {
-                    let stringpath = path.map((coord) =>
-                        this.listCoord_to_fieldName(coord),
+                    let stringpath = new Set(
+                        path.map((coord) => this.listCoord_to_fieldName(coord)),
                     );
-                    foundPaths.push(new Set(stringpath));
+                    foundPaths.push(stringpath);
 
                     continue;
                 }
@@ -81,6 +96,8 @@ class greedyModelErdosSelfridge extends BaseModel {
                 gameState,
             );
             for (const neighbor of neighbors) {
+                if (gameState[neighbor[0]][neighbor[1]] == -1) continue;
+
                 const neighborStr = this.listCoord_to_fieldName(neighbor);
                 if (!visited.has(neighborStr)) {
                     const newVisited = new Set(visited);
@@ -105,19 +122,50 @@ class greedyModelErdosSelfridge extends BaseModel {
             return cell[0] === gameState.length - 1;
         };
 
-        this.findPathsOfLength(
+        let all_paths = this.findPathsOfLength(
             gameState.length - 1,
             isGoal,
             gameState,
             sample,
-        ).forEach((path) => {
+        );
+        console.log();
+        let absolutePotential = 0;
+        all_paths.forEach((path) => {
             let pathlist = path.split("|");
+
+            let nescessaryPosets = [];
+            let emptyFieldsFromNescessaryPosets = [];
+            if (!this.hexMode) {
+                for (let i = 0; i < pathlist.length; i++) {
+                    let coordsForField = this.fieldName_to_listCoord(
+                        pathlist[i],
+                    );
+                    this.fieldsUnderfield(
+                        coordsForField[0],
+                        coordsForField[1],
+                        gameState,
+                    ).forEach((field) => {
+                        nescessaryPosets.push(field);
+                    });
+                }
+                emptyFieldsFromNescessaryPosets = nescessaryPosets.filter(
+                    ([x, y]) => {
+                        return gameState[x][y] == 0;
+                    },
+                );
+            }
+
             const playerFields_inPath = pathlist.filter((field) => {
                 let fieldcoords = this.fieldName_to_listCoord(field);
                 return gameState[fieldcoords[0]][fieldcoords[1]] === 1;
             });
 
-            const weight = 2 ** (-pathlist.length + playerFields_inPath.length);
+            const weight =
+                2 **
+                (-pathlist.length -
+                    emptyFieldsFromNescessaryPosets.length +
+                    playerFields_inPath.length);
+            absolutePotential += weight;
 
             for (let i = 0; i < pathlist.length; i++) {
                 const fieldName = pathlist[i];
@@ -128,10 +176,11 @@ class greedyModelErdosSelfridge extends BaseModel {
                 }
             }
         });
+        console.log("absolutePotential: " + absolutePotential);
         return fieldWeights;
     }
 
-    getmaxField(gameState, sample) {
+    getmaxField(gameState, sample, usable_fields = null) {
         const fieldWeights = this.getFieldWeights(gameState, sample);
         console.log(fieldWeights);
         let maxWeight = -1;
@@ -140,8 +189,15 @@ class greedyModelErdosSelfridge extends BaseModel {
         for (const field in fieldWeights) {
             let [x, y] = this.fieldName_to_listCoord(field);
             if (fieldWeights[field] > maxWeight && gameState[x][y] === 0) {
-                maxWeight = fieldWeights[field];
-                maxField = field;
+                if (usable_fields) {
+                    if (usable_fields.includes(field)) {
+                        maxWeight = fieldWeights[field];
+                        maxField = field;
+                    }
+                } else {
+                    maxWeight = fieldWeights[field];
+                    maxField = field;
+                }
             }
         }
         if (maxField === null) {
