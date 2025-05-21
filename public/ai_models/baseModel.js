@@ -102,6 +102,34 @@ class BaseModel {
         return neighbours;
     }
 
+    fieldsUnderfield(x, y, gameState) {
+        let fields = [];
+        let i = 1;
+        while (true) {
+            if (this.validField(x + i, y + i, gameState)) {
+                fields.push([x + i, y + i]);
+                i++;
+            } else {
+                break;
+            }
+        }
+        return fields;
+    }
+
+    FieldsAboveField(x, y, gameState) {
+        let fields = [];
+        let i = 1;
+        while (true) {
+            if (this.validField(x - i, y - i, gameState)) {
+                fields.push([x - i, y - i]);
+                i++;
+            } else {
+                break;
+            }
+        }
+        return fields;
+    }
+
     returnvalidNeighbours(i, j, gameState) {
         let neighbours = this.returnNeighbours(i, j);
         let valid_neighbours = [];

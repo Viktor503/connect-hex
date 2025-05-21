@@ -13,34 +13,6 @@ class greedyModel extends BaseModel {
         );
     }
 
-    fieldsUnderfield(x, y, gameState) {
-        let fields = [];
-        let i = 1;
-        while (true) {
-            if (this.validField(x + i, y + i, gameState)) {
-                fields.push([x + i, y + i]);
-                i++;
-            } else {
-                break;
-            }
-        }
-        return fields;
-    }
-
-    FieldsAboveField(x, y, gameState) {
-        let fields = [];
-        let i = 1;
-        while (true) {
-            if (this.validField(x - i, y - i, gameState)) {
-                fields.push([x - i, y - i]);
-                i++;
-            } else {
-                break;
-            }
-        }
-        return fields;
-    }
-
     emptyFieldsUnderField(x, y, gameState) {
         let fields_under = this.fieldsUnderfield(x, y, gameState);
         return fields_under.filter((field) => {
