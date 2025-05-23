@@ -1,5 +1,5 @@
 const { Queue } = require("../models/Queue");
-const { BaseModel } = require("./base_model");
+const { BaseModel } = require("./baseModel");
 
 class greedyModel extends BaseModel {
     predict(gameState) {
@@ -11,46 +11,6 @@ class greedyModel extends BaseModel {
             gameState,
             playerFields,
         );
-    }
-
-    returnNeighbours(i, j) {
-        let neighbours = [
-            [i - 1, j - 1],
-            [i - 1, j],
-            [i, j - 1],
-            [i, j + 1],
-            [i + 1, j],
-            [i + 1, j + 1],
-        ];
-        return neighbours;
-    }
-
-    fieldsUnderfield(x, y, gameState) {
-        let fields = [];
-        let i = 1;
-        while (true) {
-            if (this.validField(x + i, y + i, gameState)) {
-                fields.push([x + i, y + i]);
-                i++;
-            } else {
-                break;
-            }
-        }
-        return fields;
-    }
-
-    FieldsAboveField(x, y, gameState) {
-        let fields = [];
-        let i = 1;
-        while (true) {
-            if (this.validField(x - i, y - i, gameState)) {
-                fields.push([x - i, y - i]);
-                i++;
-            } else {
-                break;
-            }
-        }
-        return fields;
     }
 
     emptyFieldsUnderField(x, y, gameState) {
@@ -212,6 +172,7 @@ class greedyModel extends BaseModel {
         let rev_path = [this.fieldName_to_listCoord(despath)];
         let currentPathCoord = this.fieldName_to_listCoord(currentPath);
         //get the shortest path
+        let backtrack_iters = 0;
         while (
             !this.isEndEdge(currentPathCoord[0], currentPathCoord[1], gameState)
         ) {
@@ -229,6 +190,10 @@ class greedyModel extends BaseModel {
                 searchRow = distanceTable[searchRow["path"]];
             }
             currentPathCoord = this.fieldName_to_listCoord(currentPath);
+            if (backtrack_iters > 100) {
+                break;
+            }
+            backtrack_iters++;
         }
         //Find first element which isn't claimed
         for (let i = rev_path.length - 1; i > 0; i--) {

@@ -40,8 +40,15 @@ async function getModelResponse(model) {
         hexMode: hex_mode,
         gameState: game.gameBoard.getBoardValues(),
     };
-
-    // Make API call to your backend endpoint
+    console.log(model);
+    if (dataToSend.gameState.length > 6 && model == "greedy_erdos-selfridge") {
+        alert(
+            "Sorry due to the PSPACE nature of finding the winning routes this model is not available for board sizes larger than 6",
+        );
+        window.location.replace(window.location.origin);
+        return;
+    }
+    // Make API call to the backend endpoint
     const response = await fetch(`/models/${model}`, {
         method: "POST",
         headers: {

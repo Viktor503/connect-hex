@@ -1,4 +1,4 @@
-const { BaseModel } = require("./base_model");
+const { BaseModel } = require("./baseModel");
 
 class randomModel extends BaseModel {
     predict(gameState) {

@@ -1,4 +1,4 @@
-import { Hexagon_field } from "./Hexagon.js";
+import { hexagonField } from "./Hexagon.js";
 class GameBoard {
     constructor(boardsize, hexsize, material) {
         this.size = boardsize;
@@ -10,14 +10,14 @@ class GameBoard {
         this.board = new Array(boardsize);
         for (let i = 0; i < boardsize; i++) {
             if (i != 0) {
-                first_field_pos.x -= (7 / 8) * hexsize;
+                first_field_pos.x -= (Math.sqrt(3) / 2) * hexsize;
                 first_field_pos.y -= (1 / 2) * hexsize;
                 first_field_pos.z = 0;
             }
             this.board[i] = new Array(boardsize);
             for (let j = 0; j < boardsize; j++) {
                 let field_pos = {
-                    x: first_field_pos.x + (7 / 8) * hexsize * j,
+                    x: first_field_pos.x + (Math.sqrt(3) / 2) * hexsize * j,
                     y: first_field_pos.y - (1 / 2) * hexsize * j,
                     z: first_field_pos.z,
                 };
@@ -42,7 +42,7 @@ class GameBoard {
                 }
 
                 //print field_pos as string
-                this.board[i][j] = new Hexagon_field(
+                this.board[i][j] = new hexagonField(
                     0,
                     hexsize,
                     material,
@@ -106,14 +106,20 @@ class GameBoard {
 
     getDiagonalElements(name) {
         let [x, y] = this.getCoordinatesFromName(name);
-        let diagonal_value = x - y;
         let diagonal = [];
-        for (let i = 0; i < this.size; i++) {
-            for (let j = 0; j < this.size; j++) {
-                if (i - j == diagonal_value && this.board[i][j].value == 0) {
-                    diagonal.push(this.board[i][j]);
-                }
-            }
+        let column = y - x;
+        x = 0;
+        y = 0;
+        if (column > 0) {
+            y += column;
+        } else {
+            x -= column;
+        }
+        while (this.board[x][y].value == 0) {
+            diagonal.push(this.board[x][y]);
+            x++;
+            y++;
+            if (x > this.size - 1 || y > this.size - 1) break;
         }
         return diagonal;
     }

@@ -33,6 +33,7 @@ app.use("/threejs", express.static("./public/threejs"));
 app.use("/ai_models", express.static("./public/ai_models"));
 app.use("/textures", express.static("./public/textures"));
 app.use("/models", express.static("./public/models"));
+app.use("/favicon.ico", express.static("./public/favicon.ico"));
 
 server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

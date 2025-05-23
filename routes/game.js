@@ -37,15 +37,17 @@ router.post("/ai", async (req, res) => {
         );
         return res.redirect("/");
     }
-
     if (
         req.body.model != "random" &&
         req.body.model != "greedy" &&
-        req.body.model != "stohastic_greedy"
+        req.body.model != "stohastic_greedy" &&
+        req.body.model != "greedy_erdos-selfridge" &&
+        req.body.model != "odd_empty_right" &&
+        req.body.model != "odd_empty_left"
     ) {
         res.cookie(
             "error",
-            "Invalid model. Please choose 'random', 'greedy' or 'stohastic_greedy'.",
+            "Invalid model. Please choose 'random', 'greedy', 'stohastic_greedy', 'greedy_erdos-selfridge', 'odd_empty_righ' or 'odd_empty_left'.",
         );
         return res.redirect("/");
     }
