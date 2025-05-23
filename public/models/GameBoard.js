@@ -115,7 +115,6 @@ class GameBoard {
         } else {
             x -= column;
         }
-        console.log("x: ", x, "y: ", y);
         while (this.board[x][y].value == 0) {
             diagonal.push(this.board[x][y]);
             x++;

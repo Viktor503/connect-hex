@@ -71,8 +71,6 @@ class Game {
             startEdgeFound = startEdgeFound || this.isStartEdge(i, j, player);
             endEdgeFound = endEdgeFound || this.isEndEdge(i, j, player);
         });
-        console.log("Start edge found:", startEdgeFound);
-        console.log("End edge found:", endEdgeFound);
         if (startEdgeFound && endEdgeFound) {
             this.winner = player;
             await this.gameBoard
