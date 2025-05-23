@@ -172,6 +172,7 @@ class greedyModel extends BaseModel {
         let rev_path = [this.fieldName_to_listCoord(despath)];
         let currentPathCoord = this.fieldName_to_listCoord(currentPath);
         //get the shortest path
+        let backtrack_iters = 0;
         while (
             !this.isEndEdge(currentPathCoord[0], currentPathCoord[1], gameState)
         ) {
@@ -189,6 +190,10 @@ class greedyModel extends BaseModel {
                 searchRow = distanceTable[searchRow["path"]];
             }
             currentPathCoord = this.fieldName_to_listCoord(currentPath);
+            if (backtrack_iters > 100) {
+                break;
+            }
+            backtrack_iters++;
         }
         //Find first element which isn't claimed
         for (let i = rev_path.length - 1; i > 0; i--) {
