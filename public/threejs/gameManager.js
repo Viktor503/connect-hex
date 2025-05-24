@@ -48,6 +48,11 @@ async function getModelResponse(model) {
         window.location.replace(window.location.origin);
         return;
     }
+    if (hex_mode && (model == "odd_empty_left" || model == "odd_empty_right")) {
+        alert("Sorry this model is only available for connect-hex mode");
+        window.location.replace(window.location.origin);
+        return;
+    }
     // Make API call to the backend endpoint
     const response = await fetch(`/models/${model}`, {
         method: "POST",
