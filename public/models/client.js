@@ -76,6 +76,12 @@ function createGame() {
     socket.emit("createGame", gameConfig);
 }
 function joinGame() {
+    if (document.getElementById("game_id").value.length != 6) {
+        document.cookie =
+            "error=Invalid game ID. Please enter a 6 character game ID.";
+        window.location.href = "/";
+        return;
+    }
     let gameId = document.getElementById("game_id").value;
     let url = `${window.location.origin}/game/${gameId}`;
 
